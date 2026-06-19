@@ -30,5 +30,5 @@ services:
     environment:
       - DB_HOST=db
     depends_on:
-      - db:
+      db:
         condition: service_healthy
