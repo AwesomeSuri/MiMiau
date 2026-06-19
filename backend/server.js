@@ -31,7 +31,7 @@ app.post("/api/register", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, forceLogin } = req.body;
 
   try {
     const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [
@@ -44,6 +44,14 @@ app.post("/api/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(401).json({ error: "Invalid credentials." });
+
+    if (user.current_session_id && !forceLogin) {
+      return res.status(409).json({
+        conflict: true,
+        message:
+          "This account is already logged in on another device. Kick them out?",
+      });
+    }
 
     const newSessionId = uuidv4();
     await db.query("UPDATE users SET current_session_id = ? WHERE id = ?", [
@@ -75,6 +83,19 @@ const verifySession = async (req, res, next) => {
   }
   next();
 };
+
+app.post("/api/logout", verifySession, async (req, res) => {
+  const userid = parseInt(req.headers["userid"], 10);
+
+  try {
+    await db.query("UPDATE users SET current_session_id = NULL WHERE id = ?", [
+      userid,
+    ]);
+    res.status(200).json({ message: "Logged out successfully!" });
+  } catch (err) {
+    res.status(500).json({ error: "Database error during logout." });
+  }
+});
 
 app.delete("/api/account", verifySession, async (req, res) => {
   const { userid } = req.headers;
