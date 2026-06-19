@@ -13,7 +13,7 @@ const db = mysql.createPool({
   database: "mimiau",
 });
 
-app.post("api/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { email, password, username } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
