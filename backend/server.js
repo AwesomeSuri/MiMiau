@@ -23,7 +23,7 @@ app.post("/api/register", async (req, res) => {
     );
     res.status(201).json({ message: "Cat parent registered!" });
   } catch (err) {
-    res.status(400).json({ error: "Invalid data." });
+    res.status(400).json({ error: err.message });
   }
 });
 
