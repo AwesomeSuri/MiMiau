@@ -8,6 +8,20 @@ services:
       - "3306:3306"
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-pmiaupassword",
+        ]
+      timeout: 20s
+      retries: 10
 
   backend:
     build: ./backend

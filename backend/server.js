@@ -7,10 +7,13 @@ const app = express();
 app.use(express.json());
 
 const db = mysql.createPool({
-  host: process.env.DB_HOST || "localhost",
+  host: db,
   user: "root",
   password: "miaupassword",
   database: "mimiau",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 app.post("/api/register", async (req, res) => {
