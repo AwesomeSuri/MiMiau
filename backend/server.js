@@ -1,7 +1,7 @@
 import express from "express";
 import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
-import { uuidv4 as v4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 app.use(express.json());
