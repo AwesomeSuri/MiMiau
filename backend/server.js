@@ -62,13 +62,13 @@ app.post("/api/login", async (req, res) => {
 });
 
 const verifySession = async (req, res, next) => {
-  const { userId, sessionId } = req.headers;
+  const { userid, sessionid } = req.headers;
   const [rows] = await db.query(
     "SELECT current_session_id FROM users WHERE id = ?",
-    [userId],
+    [userid],
   );
 
-  if (rows.length === 0 || rows[0].current_session_id !== sessionId) {
+  if (rows.length === 0 || rows[0].current_session_id !== sessionid) {
     return res
       .status(401)
       .json({ error: "Session expired or logged in from another device." });
@@ -77,9 +77,9 @@ const verifySession = async (req, res, next) => {
 };
 
 app.delete("/api/account", verifySession, async (req, res) => {
-  const { userId } = req.headers;
+  const { userid } = req.headers;
   try {
-    await db.query("DELETE from users WHERE id = ?", [userId]);
+    await db.query("DELETE from users WHERE id = ?", [userid]);
     res.status(200).json({
       message: "Account deleted successfully. Thank you for playing!",
     });
