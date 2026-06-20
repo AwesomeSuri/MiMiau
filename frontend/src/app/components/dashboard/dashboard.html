@@ -1,0 +1,9 @@
+<div class="dashboard-container" class="landing-container">
+    <h1>MiMiau Dashboard 🐾</h1>
+  
+    <button (click)="onLogout()" [disabled]="isLoading" class="form-button">
+      {{ isLoading ? 'Logging out...' : 'Log Out' }}
+    </button>
+  
+    <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
+  </div>

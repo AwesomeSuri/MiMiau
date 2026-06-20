@@ -18,9 +18,9 @@ export class Auth {
   login(credentials: any): Observable<any>{
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        if(response.id && response.current_session_id){
-          localStorage.setItem("userId", response.id.toString());
-          localStorage.setItem("sessionId", response.current_session_id);
+        if(response.userId && response.sessionId){
+          localStorage.setItem("userId", response.userId.toString());
+          localStorage.setItem("sessionId", response.sessionId);
         }
       })
     )
