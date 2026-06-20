@@ -1,0 +1,26 @@
+<div class="register-container"
+    style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
+    <h2>Join MiMiau 🐾</h2>
+
+    <form (ngSubmit)="onRegister()">
+        <div class="form-input-container">
+            <label>Username</label>
+            <input type="text" [(ngModel)]="user.username" name="username" required class="form-input">
+        </div>
+
+        <div class="form-input-container">
+            <label>Email</label>
+            <input type="text" [(ngModel)]="user.email" name="email" required class="form-input">
+        </div>
+
+        <div class="form-input-container">
+            <label>Password</label>
+            <input type="text" [(ngModel)]="user.password" name="password" required class="form-input">
+        </div>
+
+        <button type="submit" class="form-button">Sign Up</button>
+    </form>
+
+    <p *ngIf="message" class="form-message">{{ message }}</p>
+    <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
+</div>
