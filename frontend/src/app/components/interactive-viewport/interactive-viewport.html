@@ -1,0 +1,8 @@
+<div class="viewport" (wheel)="onWheel($event)" (mousedown)="onMouseDown($event)" (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()">
+    <div class="transform-layer"
+        [style.transform]="'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')'">
+        <ng-content></ng-content>
+    </div>
+    <button *ngIf="!isCentered()" (click)="centerView()" class="center-button">Reset View</button>
+</div>

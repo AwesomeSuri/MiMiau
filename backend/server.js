@@ -85,7 +85,7 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/my-cats", async (req, res) => {
-  const sessionId = req.headers["sessionId"];
+  const sessionId = req.headers["sessionid"];
   if (!sessionId) return res.status(401).json({ error: "Unauthorized" });
 
   try {
