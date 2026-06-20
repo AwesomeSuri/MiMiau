@@ -25,8 +25,7 @@ export class Dashboard {
 
     this.auth.logout().subscribe({
       next: () => {
-        this.isLoading = false;
-        this.cdr.detectChanges();
+        this.router.navigate(["/login"]);
       },
       error: (err) => {
         this.isLoading = false;

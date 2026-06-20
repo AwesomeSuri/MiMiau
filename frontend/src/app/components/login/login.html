@@ -18,6 +18,7 @@
       </button>
     </form>
   
-    <p *ngIf="message" class="form-message">{{ message }}</p>
-    <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
+    <p *ngIf="errorMessage" class="form-error-message">{{ errorMessage }}</p>
+
+    <p class="form-message">New to MiMiau? <a routerLink="/register">Create a new account</a></p>
   </div>

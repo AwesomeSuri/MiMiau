@@ -29,7 +29,7 @@
 }
 
 .form-button:disabled {
-    background-color: #d9a3a3;
+    background-color: #ffb3b3;
     cursor: not-allowed !important;
 }
 
@@ -43,12 +43,21 @@
 }
 
 .form-message {
-    color: green;
-    margin-top: 15px;
+    margin-top: 20px;
+    font-size: 0.9em;
+    text-align: center;
 }
 
-.form-message.error {
+.form-message a {
+    color: #aaa;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.form-error-message {
     color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
 }
 
 .spinner {
