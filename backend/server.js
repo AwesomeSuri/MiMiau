@@ -1,9 +1,11 @@
 import express from "express";
 import mysql from "mysql2/promise";
+import cors from "cors";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const db = mysql.createPool({
