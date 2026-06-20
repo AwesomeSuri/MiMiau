@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +20,7 @@ export class Register {
   errorMessage = "";
   isLoading = false;
 
-  constructor(private auth: Auth, private cdr: ChangeDetectorRef) { }
+  constructor(private auth: Auth, private cdr: ChangeDetectorRef, private router: Router) { }
 
   onRegister() {
     this.errorMessage = "";
@@ -28,7 +28,16 @@ export class Register {
 
     this.auth.register(this.user).subscribe({
       next: () => {
-        this.auth.login(this.user);
+        const loginCredentials = {
+          email: this.user.email,
+          password: this.user.password
+        };
+
+        this.auth.login(loginCredentials).subscribe({
+          next: (loginRes) => {
+            this.router.navigate(["/dashboard"]);
+          }
+        });
       },
       error: (err) => {
         var code = err.error?.error?.code
