@@ -181,7 +181,7 @@ app.get("/api/claim-cat", verifySession, async (req, res) => {
   const { userid } = req.headers;
   try {
     const [catalog] = await db.execute(
-      "SELECT id, name, image, sprite_sheets, facts FROM cats_catalog",
+      "SELECT id, name, image, sprite_sheet, facts FROM cats_catalog",
     );
     if (catalog.length === 0)
       return res.status(500).json({ error: "Catalog is empty" });
