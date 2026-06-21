@@ -26,13 +26,13 @@
         </div>
 
         <div class="form-input-code-container">
-            <button class="code-button" (click)="sendCode()">
+            <button class="code-button" (click)="sendCode()" [disabled]="isSendingCode">
                 {{ receivedVerificationToken ? "Re-Send Code" : "Send Code" }}
             </button>
             <input type="text" [(ngModel)]="verificationCode" name="verificationCode" required #codeInput="ngModel"
                 placeholder="Enter Code" class="code-input">
-            <p *ngIf="receivedVerificationToken" class="code-sent-message">Code sent to to your Email-Address.</p>
-            <div *ngIf="codeInput.invalid && (codeInput.dirty || codeInput.touched)" class="form-error-message">
+                <div></div>
+                <div *ngIf="codeInput.invalid && (codeInput.dirty || codeInput.touched)" class="form-error-message">
                 <span *ngIf="codeInput.errors?.['required']">Verification Code is required.</span>
             </div>
         </div>

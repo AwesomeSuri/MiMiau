@@ -3,7 +3,6 @@ import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 
 @Component({
@@ -30,7 +29,6 @@ export class Register {
     private auth: Auth, 
     private cdr: ChangeDetectorRef, 
     private router: Router,
-    private http: HttpClient,
   ) { }
 
   sendCode() {
@@ -39,9 +37,11 @@ export class Register {
       next: (res) => {
         this.isSendingCode = false;
         this.receivedVerificationToken = res.verificationToken;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.isSendingCode = false;
+        this.cdr.detectChanges();
         console.error("Verification code could not be sent:", err);
       }
     })

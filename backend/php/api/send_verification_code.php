@@ -42,6 +42,18 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 
 $response = curl_exec($ch);
 
+if ($response === false) {
+    $curlError = curl_error($ch);
+    error_log("[MiMiau cURL CRITICAL ERROR]: " . $curlError);
+    
+    http_response_code(502);
+    echo json_encode([
+        "error" => "Failed to reach the email gateway.",
+        "details" => $curlError
+    ]);
+    exit;
+}
+
 error_log("[MiMiau Verification Engine] Make.com API Handshake Status: " . $response);
 
 echo json_encode([
