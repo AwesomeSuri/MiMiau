@@ -16,7 +16,6 @@ export class GameRoom implements OnInit {
 
   constructor(
     private catState: CatState,
-    private http: HttpClient
   ){}
 
   ngOnInit(): void {
@@ -25,5 +24,6 @@ export class GameRoom implements OnInit {
   }
 
   onOpenBox() {
+    this.catState.claimCat();
   }
 }

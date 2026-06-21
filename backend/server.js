@@ -114,7 +114,7 @@ app.get("/api/my-cats", verifySession, async (req, res) => {
     const [cats] = await db.execute(
       `
         SELECT 
-          uc.id as instance_id, 
+          uc.id, 
           c.name, 
           c.image, 
           c.sprite_sheet, 
@@ -132,18 +132,15 @@ app.get("/api/my-cats", verifySession, async (req, res) => {
       try {
         facts = JSON.parse(cat.facts);
       } catch (e) {
-        console.error(
-          "Failed to parse meme facts for the cat slot: ",
-          cat.instance_id,
-        );
+        console.error("Failed to parse meme facts for the cat slot: ", cat.id);
       }
 
       return {
-        instanceId: cat.instance_id,
+        id: cat.id,
         name: cat.name,
         image: cat.image,
         spriteSheet: cat.sprite_sheet,
-        maxStarLevel: facts ? infoArray.length : 1,
+        level: cat.level,
         facts: facts || [],
       };
     });
@@ -181,7 +178,7 @@ app.delete("/api/account", verifySession, async (req, res) => {
 });
 
 app.get("/api/claim-cat", verifySession, async (req, res) => {
-  const [userId] = req.headers;
+  const { userid } = req.headers;
   try {
     const [catalog] = await db.execute(
       "SELECT id, name, image, sprite_sheets, facts FROM cats_catalog",
@@ -194,14 +191,18 @@ app.get("/api/claim-cat", verifySession, async (req, res) => {
 
     const [ownedCat] = await db.execute(
       "SELECT id, user_id, cat_id, level FROM user_cats WHERE user_id = ?",
-      [userId],
+      [userid],
     );
     if (ownedCat.length > 0) {
       cat = ownedCat[0];
+      await db.execute("UPDATE user_cats SET level = ? WHERE id = ?", [
+        cat.level + 1,
+        cat.id,
+      ]);
       res.json({
         message: "Cat upgraded!",
         cat: {
-          instanceId: result.insertId,
+          id: cat.id,
           name: rolledCat.name,
           image: rolledCat.image,
           spriteSheet: rolledCat.sprite_sheet,
@@ -212,12 +213,12 @@ app.get("/api/claim-cat", verifySession, async (req, res) => {
     } else {
       const [result] = await db.execute(
         "INSERT INTO user_cats (user_id, cat_id, level) VALUES (?, ?, 1)",
-        [userId, rolledCat.id],
+        [userid, rolledCat.id],
       );
       res.json({
         message: "Cat unlocked!",
         cat: {
-          instanceId: result.insertId,
+          id: result.id,
           name: rolledCat.name,
           image: rolledCat.image,
           spriteSheet: rolledCat.sprite_sheet,
@@ -227,7 +228,7 @@ app.get("/api/claim-cat", verifySession, async (req, res) => {
       });
     }
   } catch (err) {
-    console.err(err);
+    console.error(err);
     res.status(500).json({ error: "Database error claiming cat" });
   }
 });

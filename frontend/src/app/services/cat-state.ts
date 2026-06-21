@@ -30,7 +30,7 @@ export class CatState {
   }
 
   claimCat() {
-    this.http.post<any>(this.getUrl("/claim-cat"), {}).subscribe({
+    this.http.get<any>(this.getUrl("/claim-cat")).subscribe({
       next: (res) => {
         this.gachaCatSignal.set(res.cat);
         this.catsSignal.update((currentCats) => [...currentCats, res.cat]);
