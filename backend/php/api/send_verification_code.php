@@ -40,16 +40,24 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json'
 ]);
 
+curl_setopt($ch, CURLOPT_VERBOSE, true);
+$verboseLog = fopen('php://temp', 'w+');
+curl_setopt($ch, CURLOPT_STDERR, $verboseLog);
+
 $response = curl_exec($ch);
 
 if ($response === false) {
-    $curlError = curl_error($ch);
-    error_log("[MiMiau cURL CRITICAL ERROR]: " . $curlError);
+    rewind($verboseLog);
+    $verboseDetails = stream_get_contents($verboseLog);
+    fclose($verboseLog);
+    
+    error_log("[MiMiau cURL INTERNAL STREAM]:\n" . $verboseDetails);
     
     http_response_code(502);
     echo json_encode([
         "error" => "Failed to reach the email gateway.",
-        "details" => $curlError
+        "details" => empty(curl_error($ch)) ? "Internal engine abort" : curl_error($ch),
+        "verbose_stream" => $verboseDetails
     ]);
     exit;
 }
