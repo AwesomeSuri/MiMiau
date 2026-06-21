@@ -3,9 +3,9 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const anonGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const sessionId = localStorage.getItem("sessionId");
+  const jwt = localStorage.getItem("mimiau_jwt");
 
-  if (sessionId) {
+  if (jwt) {
     router.navigate(["/dashboard"]);
     return false;
   } else {

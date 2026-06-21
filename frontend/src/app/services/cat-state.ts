@@ -21,10 +21,10 @@ export class CatState {
   }
 
   fetchMyCats() {
-    this.http.get<any[]>(this.getUrl("/my-cats")).subscribe({
-      next: (cats) => this.cats.set(cats),
-      error: (err) => console.error("Could not load cats ", err)
-    })
+    // this.http.get<any[]>(this.getUrl("/my-cats")).subscribe({
+    //   next: (cats) => this.cats.set(cats),
+    //   error: (err) => console.error("Could not load cats ", err)
+    // })
   }
 
   claimCat() {
