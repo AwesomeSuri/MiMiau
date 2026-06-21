@@ -26,6 +26,7 @@ $verificationToken = JWTHelper::generate([
 ], 300);
 
 $makeWebhookUrl = getenv("MAKE_WEBHOOK");
+error_log("[MiMiau Verification Engine] makeWebhookUrl: " . $makeWebhookUrl);
 
 $payloadData = [
     "email" => $email,
@@ -39,10 +40,6 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payloadData));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json'
 ]);
-
-curl_setopt($ch, CURLOPT_VERBOSE, true);
-$verboseLog = fopen('php://temp', 'w+');
-curl_setopt($ch, CURLOPT_STDERR, $verboseLog);
 
 $response = curl_exec($ch);
 
