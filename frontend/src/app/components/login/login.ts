@@ -11,10 +11,8 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: '../landing.css',
 })
 export class Login {
-  credentials = {
-    email: "",
-    password: ""
-  }
+  email = "";
+  password = "";
 
   errorMessage = "";
   isLoading = false;
@@ -23,20 +21,20 @@ export class Login {
     private auth: Auth,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
-  onLogin(){
+  onLogin() {
     this.errorMessage = "";
     this.isLoading = true;
 
-    this.auth.login(this.credentials).subscribe({
+    this.auth.login(this.email, this.password).subscribe({
       next: () => {
         this.router.navigate(["/dashboard"])
       },
       error: (err) => {
         this.errorMessage = err.error?.error || "Login failed. Please check your credentials."
         this.isLoading = false;
-        this.cdr. detectChanges();
+        this.cdr.detectChanges();
       }
     })
   }

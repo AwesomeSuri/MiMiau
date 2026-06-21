@@ -4,7 +4,7 @@
     <form #registerForm="ngForm" (ngSubmit)="registerForm.form.valid && onRegister()">
         <div class="form-input-container">
             <label>Username</label>
-            <input type="text" [(ngModel)]="user.username" name="username" required minlength="3"
+            <input type="text" [(ngModel)]="username" name="username" required minlength="3"
                 pattern="^[a-zA-Z0-9\-_]+$" #usernameInput="ngModel" class="form-input">
             <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)"
                 class="form-error-message">
@@ -16,7 +16,7 @@
 
         <div class="form-input-container">
             <label>Email</label>
-            <input type="email" [(ngModel)]="user.email" name="email" required email #emailInput="ngModel"
+            <input type="email" [(ngModel)]="email" name="email" required email #emailInput="ngModel"
                 class="form-input">
             <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="form-error-message">
                 <span *ngIf="emailInput.errors?.['required']">Email is required.</span>
@@ -26,14 +26,24 @@
 
         <div class="form-input-container">
             <label>Password</label>
-            <input type="password" [(ngModel)]="user.password" name="password" required
-                pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?\x22\x27:{}|<>]).{8,}$" #passwordInput="ngModel"
+            <input type="password" [(ngModel)]="password" name="password" required
+                pattern="^[a-zA-Z0-9]{4,}$" #passwordInput="ngModel"
                 class="form-input">
             <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
                 class="form-error-message">
                 <span *ngIf="passwordInput.errors?.['required']">Password is required.</span>
-                <span *ngIf="passwordInput.errors?.['pattern']">Must be at least 8 characters and include a letter, a
-                    number, and a special character.</span>
+                <span *ngIf="passwordInput.errors?.['pattern']">Must be at least 4 characters long and contain only letters and numbers.</span>
+            </div>
+        </div>
+
+        <div class="form-input-container">
+            <label>Confirm Password</label>
+            <input type="password" [(ngModel)]="passwordConfirm" name="password" required #passwordConfirmInput="ngModel"
+                class="form-input">
+            <div *ngIf="(passwordConfirmInput.invalid || passwordConfirmInput !== passwordInput) && (passwordInput.dirty || passwordInput.touched)"
+                class="form-error-message">
+                <span *ngIf="passwordConfirmInput.errors?.['required']">Please confirm your password.</span>
+                <span *ngIf="passwordConfirmInput !== passwordInput && !passwordConfirmInput.errors?.['required']">Passwords do not match.</span>
             </div>
         </div>
 

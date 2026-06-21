@@ -11,11 +11,10 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: '../landing.css',
 })
 export class Register {
-  user = {
-    email: "",
-    password: "",
-    username: ""
-  };
+  username = "";
+  email = "";
+  password = "";
+  passwordConfirm = "";
 
   errorMessage = "";
   isLoading = false;
@@ -26,15 +25,10 @@ export class Register {
     this.errorMessage = "";
     this.isLoading = true;
 
-    this.auth.register(this.user).subscribe({
+    this.auth.register(this.username, this.email, this.password).subscribe({
       next: () => {
-        const loginCredentials = {
-          email: this.user.email,
-          password: this.user.password
-        };
-
-        this.auth.login(loginCredentials).subscribe({
-          next: (loginRes) => {
+        this.auth.login(this.email, this.password).subscribe({
+          next: () => {
             this.router.navigate(["/dashboard"]);
           }
         });

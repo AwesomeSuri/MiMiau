@@ -1,44 +1,50 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+
+export interface AuthResponse {
+  message: string;
+}
+
+export interface LoginResponse extends AuthResponse {
+  token: string;
+  userId: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
-  private apiUrl = environment.nodeApiUrl;
+  private http = inject(HttpClient);
+  private apiUrl = environment.phpApiUrl;
 
-  constructor(private http: HttpClient){}
+  currentUserToken = signal<string | null>(localStorage.getItem("mimiau_jwt"));
+  currentUserId = signal<number | null>(Number(localStorage.getItem("mimiau_user_id")) || null);
 
-  register(userData: any): Observable<any>{
-    return this.http.post(`${this.apiUrl}/register`, userData);
+  register(username: string, email: string, password: string): Observable<AuthResponse>{
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, {username,email,password});
   }
 
-  login(credentials: any): Observable<any>{
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: any) => {
-        if(response.userId && response.sessionId){
-          localStorage.setItem("userId", response.userId.toString());
-          localStorage.setItem("sessionId", response.sessionId);
-        }
+  login(email: string, password: string): Observable<LoginResponse>{
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, {email, password}).pipe(
+      tap((response: LoginResponse) => {
+        localStorage.setItem("mimiau_jwt", response.token);
+        localStorage.setItem("mimiau_user_id", String(response.userId));
+
+        this.currentUserToken.set(response.token);
+        this.currentUserId.set(response.userId);
       })
     )
   }
 
-  getUserId(): string | null {
-    return localStorage.getItem("userId");
-  }
+  logout(): Observable<AuthResponse> {
+    localStorage.removeItem('mimiau_jwt');
+    localStorage.removeItem('mimiau_user_id');
+    
+    this.currentUserToken.set(null);
+    this.currentUserId.set(null);
 
-  getSessionId(): string | null {
-    return localStorage.getItem("sessionId");
-  }
-
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-      tap(()=> {
-        localStorage.clear();
-      })
-    )
+    return this.http.post<AuthResponse>(`${this.apiUrl}/logout.php`, {});
   }
 }
