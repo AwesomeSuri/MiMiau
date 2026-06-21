@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment.development';
   providedIn: 'root',
 })
 export class CatState {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.nodeApiUrl;
   
   public cats = signal<any[]>([]);
   public gachaCat = signal<any | null>(null);

@@ -8,7 +8,11 @@
   </app-interactive-viewport>
 
   <div class="bottom-nav">
-    <div></div>
+    <div>
+      @for (cat of catsCatalog(); track cat.id) {
+        <span>{{cat.name}}</span>
+      }
+    </div>
     <div></div>
     <div></div>
     <button (click)="onLogout()" [disabled]="isLoading" class="form-button">

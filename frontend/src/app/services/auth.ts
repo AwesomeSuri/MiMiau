@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class Auth {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.nodeApiUrl;
 
   constructor(private http: HttpClient){}
 

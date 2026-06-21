@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { GameRoom } from '../game-room/game-room';
 import { CatState } from '../../services/cat-state';
 import { GachaOverlay } from '../gacha-overlay/gacha-overlay';
 import { CatDetailCard } from '../cat-detail-card/cat-detail-card';
+import { CatsCatalog } from '../../services/cats-catalog';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,8 +16,12 @@ import { CatDetailCard } from '../cat-detail-card/cat-detail-card';
   styleUrls: ['./dashboard.css', '../landing.css'],
 })
 export class Dashboard implements OnInit {  
+  private catsCatalogService = inject(CatsCatalog);
+
   errorMessage = "";
   isLoading = false;
+
+  public catsCatalog = this.catsCatalogService.catalog;
 
   constructor(
     private auth: Auth,
@@ -25,8 +30,10 @@ export class Dashboard implements OnInit {
     public catState: CatState,
   ) { }
 
+
   ngOnInit(): void {
     this.catState.fetchMyCats();
+    this.catsCatalogService.fetchCatalog().subscribe();
   }
 
   onLogout() {
