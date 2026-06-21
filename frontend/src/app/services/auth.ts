@@ -35,12 +35,7 @@ export class Auth {
   }
 
   logout(): Observable<any> {
-    const headers = {
-      "userid": this.getUserId() || "",
-      "sessionid": this.getSessionId() || ""
-    };
-
-    return this.http.post(`${this.apiUrl}/logout`, {}, {headers}).pipe(
+    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
       tap(()=> {
         localStorage.clear();
       })

@@ -18,6 +18,21 @@ const db = mysql.createPool({
   queueLimit: 0,
 });
 
+const verifySession = async (req, res, next) => {
+  const { userid, sessionid } = req.headers;
+  const [rows] = await db.execute(
+    "SELECT current_session_id FROM users WHERE id = ?",
+    [userid],
+  );
+
+  if (rows.length === 0 || rows[0].current_session_id !== sessionid) {
+    return res
+      .status(401)
+      .json({ error: "Session expired or logged in from another device." });
+  }
+  next();
+};
+
 app.post("/api/register", async (req, res) => {
   const { email, password, username } = req.body;
   try {
@@ -84,9 +99,8 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.get("/api/my-cats", async (req, res) => {
+app.get("/api/my-cats", verifySession, async (req, res) => {
   const sessionId = req.headers["sessionid"];
-  if (!sessionId) return res.status(401).json({ error: "Unauthorized" });
 
   try {
     const [users] = await db.execute(
@@ -140,21 +154,6 @@ app.get("/api/my-cats", async (req, res) => {
   }
 });
 
-const verifySession = async (req, res, next) => {
-  const { userid, sessionid } = req.headers;
-  const [rows] = await db.execute(
-    "SELECT current_session_id FROM users WHERE id = ?",
-    [userid],
-  );
-
-  if (rows.length === 0 || rows[0].current_session_id !== sessionid) {
-    return res
-      .status(401)
-      .json({ error: "Session expired or logged in from another device." });
-  }
-  next();
-};
-
 app.post("/api/logout", verifySession, async (req, res) => {
   const userid = parseInt(req.headers["userid"], 10);
 
@@ -178,6 +177,58 @@ app.delete("/api/account", verifySession, async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/claim-cat", verifySession, async (req, res) => {
+  const [userId] = req.headers;
+  try {
+    const [catalog] = await db.execute(
+      "SELECT id, name, image, sprite_sheets, facts FROM cats_catalog",
+    );
+    if (catalog.length === 0)
+      return res.status(500).json({ error: "Catalog is empty" });
+
+    const randomIndex = Math.floor(Math.random() * catalog.length);
+    const rolledCat = catalog[randomIndex % catalog.length];
+
+    const [ownedCat] = await db.execute(
+      "SELECT id, user_id, cat_id, level FROM user_cats WHERE user_id = ?",
+      [userId],
+    );
+    if (ownedCat.length > 0) {
+      cat = ownedCat[0];
+      res.json({
+        message: "Cat upgraded!",
+        cat: {
+          instanceId: result.insertId,
+          name: rolledCat.name,
+          image: rolledCat.image,
+          spriteSheet: rolledCat.sprite_sheet,
+          facts: rolledCat.facts,
+          level: cat.level + 1,
+        },
+      });
+    } else {
+      const [result] = await db.execute(
+        "INSERT INTO user_cats (user_id, cat_id, level) VALUES (?, ?, 1)",
+        [userId, rolledCat.id],
+      );
+      res.json({
+        message: "Cat unlocked!",
+        cat: {
+          instanceId: result.insertId,
+          name: rolledCat.name,
+          image: rolledCat.image,
+          spriteSheet: rolledCat.sprite_sheet,
+          facts: rolledCat.facts,
+          level: 1,
+        },
+      });
+    }
+  } catch (err) {
+    console.err(err);
+    res.status(500).json({ error: "Database error claiming cat" });
   }
 });
 

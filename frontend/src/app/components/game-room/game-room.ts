@@ -12,12 +12,18 @@ import { CatState } from '../../services/cat-state';
 })
 export class GameRoom implements OnInit {  
   myCats: any[] = [];
+  showBox = false;
 
   constructor(
-    private catState: CatState
+    private catState: CatState,
+    private http: HttpClient
   ){}
 
   ngOnInit(): void {
     this.myCats = this.catState.cats();
+    this.showBox = this.catState.catCount() === 0;
+  }
+
+  onOpenBox() {
   }
 }

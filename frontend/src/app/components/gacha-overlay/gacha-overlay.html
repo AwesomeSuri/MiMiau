@@ -1,0 +1,25 @@
+<div class="gacha-overlay">
+    <h1 class="title">{{ getTitle() }}</h1>
+
+    <div class="card">
+        <div class="stars-container">
+            @for(star of getStars(); track $index) {
+            <span class="star">{{star ? "★" : "☆"}}</span>
+            }
+
+        </div>
+        <h2 class="name">{{cat.name}}</h2>
+        <div class="details">
+            <div class="image-container">
+                <img [src]="cat.image" class="image" />
+            </div>
+            <ul class="facts-list">
+                <li *ngFor="let fact of getFacts()">
+                    {{ fact }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="close-button" (click)="close.emit()">Continue</button>
+</div>

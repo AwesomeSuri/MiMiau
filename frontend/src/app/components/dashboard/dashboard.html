@@ -18,3 +18,10 @@
     <p *ngIf="errorMessage" class="form-error-message">{{ errorMessage }}</p>
   </div>
 </div>
+
+<app-gacha-overlay 
+  *ngIf="gachaCat"
+  [cat]="gachaCat" 
+  [overflow]="true"
+  (close)="closeOverlay()">
+</app-gacha-overlay>
