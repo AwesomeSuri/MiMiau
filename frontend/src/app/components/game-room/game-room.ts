@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CatState } from '../../services/cat-state';
 
 @Component({
@@ -8,18 +8,11 @@ import { CatState } from '../../services/cat-state';
   templateUrl: './game-room.html',
   styleUrl: './game-room.css',
 })
-export class GameRoom implements OnInit {  
-  myCats: any[] = [];
-  showBox = false;
+export class GameRoom {  
 
   constructor(
-    private catState: CatState,
+    public catState: CatState,
   ){}
-
-  ngOnInit(): void {
-    this.myCats = this.catState.cats();
-    this.showBox = this.catState.catCount() === 0;
-  }
 
   onOpenBox() {
     this.catState.claimCat();
