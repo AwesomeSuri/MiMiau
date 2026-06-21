@@ -34,7 +34,7 @@ try {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ["cost" => 10]);
 
     $stmt = $pdo->prepare("INSERT INTO users (email, password, username) VALUES (?,?,?)");
-    $stmt->execute([$email, $password, $username]);
+    $stmt->execute([$email, $hashedPassword, $username]);
 
     http_response_code(201);
     echo json_encode(["message" => "Cat parent registered!"]);

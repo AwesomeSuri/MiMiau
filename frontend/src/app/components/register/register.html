@@ -38,16 +38,16 @@
 
         <div class="form-input-container">
             <label>Confirm Password</label>
-            <input type="password" [(ngModel)]="passwordConfirm" name="password" required #passwordConfirmInput="ngModel"
+            <input type="password" [(ngModel)]="passwordConfirm" name="passwordConfirm" required #passwordConfirmInput="ngModel"
                 class="form-input">
-            <div *ngIf="(passwordConfirmInput.invalid || passwordConfirmInput !== passwordInput) && (passwordInput.dirty || passwordInput.touched)"
+            <div *ngIf="(passwordConfirmInput.invalid || passwordConfirm !== password) && (passwordConfirmInput.dirty || passwordConfirmInput.touched)"
                 class="form-error-message">
                 <span *ngIf="passwordConfirmInput.errors?.['required']">Please confirm your password.</span>
                 <span *ngIf="passwordConfirmInput !== passwordInput && !passwordConfirmInput.errors?.['required']">Passwords do not match.</span>
             </div>
         </div>
 
-        <button type="submit" [disabled]="registerForm.form.invalid || isLoading" class="form-button">
+        <button type="submit" [disabled]="registerForm.form.invalid || isLoading || password !== passwordConfirm" class="form-button">
             <span *ngIf="isLoading" class="spinner"></span>
             <span *ngIf="!isLoading">Sign Up</span></button>
     </form>
