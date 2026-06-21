@@ -8,8 +8,7 @@ import { CatState } from '../../services/cat-state';
   templateUrl: './game-room.html',
   styleUrl: './game-room.css',
 })
-export class GameRoom {  
-
+export class GameRoom {
   constructor(
     public catState: CatState,
   ){}

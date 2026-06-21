@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CatState } from '../../services/cat-state';
 
 @Component({
   selector: 'app-gacha-overlay',
@@ -9,10 +10,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class GachaOverlay implements OnInit {
   @Input() cat: any | null = null;
-  @Input() overflow = false;
-  @Output() close = new EventEmitter<void>();
 
   maxStars = 0;
+
+  constructor(public catState: CatState){}
 
   ngOnInit(): void {
     this.maxStars = this.cat.facts.length;

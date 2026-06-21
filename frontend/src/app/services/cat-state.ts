@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 
@@ -8,13 +8,11 @@ import { environment } from '../../environments/environment.development';
 export class CatState {
   private apiUrl = environment.apiUrl;
   
-  private catsSignal = signal<any[]>([]);
-  private gachaCatSignal = signal<any | null>(null);
+  public cats = signal<any[]>([]);
+  public gachaCat = signal<any | null>(null);
+  public selectedCat = signal<any | null>(null)
 
-  public cats = this.catsSignal.asReadonly();
-  public gachaCat = this.gachaCatSignal.asReadonly();
-
-  public catCount = computed(() => this.catsSignal().length);
+  public catCount = computed(() => this.cats().length);
 
   constructor(private http: HttpClient){}
 
@@ -24,7 +22,7 @@ export class CatState {
 
   fetchMyCats() {
     this.http.get<any[]>(this.getUrl("/my-cats")).subscribe({
-      next: (cats) => this.catsSignal.set(cats),
+      next: (cats) => this.cats.set(cats),
       error: (err) => console.error("Could not load cats ", err)
     })
   }
@@ -32,20 +30,12 @@ export class CatState {
   claimCat() {
     this.http.get<any>(this.getUrl("/claim-cat")).subscribe({
       next: (res) => {
-        this.gachaCatSignal.set(res.cat);
-        this.catsSignal.update((currentCats) => [...currentCats, res.cat]);
+        this.gachaCat.set(res.cat);
+        this.cats.update((currentCats) => [...currentCats, res.cat]);
       },
       error: (err) => {
         console.error('Error claiming cat:', err);
       }
     });
-  }
-
-  clearState() {
-    this.catsSignal.set([]);
-  }
-
-  clearGachaCat() {
-    this.gachaCatSignal.set(null);
   }
 }

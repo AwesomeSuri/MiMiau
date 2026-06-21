@@ -6,10 +6,11 @@ import { InteractiveViewport } from '../interactive-viewport/interactive-viewpor
 import { GameRoom } from '../game-room/game-room';
 import { CatState } from '../../services/cat-state';
 import { GachaOverlay } from '../gacha-overlay/gacha-overlay';
+import { CatDetailCard } from '../cat-detail-card/cat-detail-card';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, InteractiveViewport, GameRoom, GachaOverlay],
+  imports: [CommonModule, InteractiveViewport, GameRoom, GachaOverlay, CatDetailCard],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css', '../landing.css'],
 })
@@ -26,10 +27,6 @@ export class Dashboard implements OnInit {
 
   ngOnInit(): void {
     this.catState.fetchMyCats();
-  }
-
-  closeOverlay() {
-    this.catState.clearGachaCat();
   }
 
   onLogout() {

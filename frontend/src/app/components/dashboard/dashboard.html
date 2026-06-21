@@ -19,9 +19,12 @@
   </div>
 </div>
 
+<app-cat-detail-card 
+  *ngIf="catState.selectedCat()"
+  [cat]="catState.selectedCat()">
+</app-cat-detail-card>
+
 <app-gacha-overlay 
   *ngIf="catState.gachaCat()"
-  [cat]="catState.gachaCat()" 
-  [overflow]="true"
-  (close)="closeOverlay()">
+  [cat]="catState.gachaCat()" >
 </app-gacha-overlay>
