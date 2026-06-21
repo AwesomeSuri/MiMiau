@@ -113,7 +113,7 @@ app.get("/api/my-cats", verifySession, async (req, res) => {
           c.facts, 
           uc.level
         FROM user_cats uc
-        JOIN cats_catalog c ON uc.id = c.id
+        JOIN cats_catalog c ON uc.cat_id = c.id
         WHERE uc.user_id = ?
       `,
       [userid],
