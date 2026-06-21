@@ -7,6 +7,7 @@ header("Content-Type: application/json; charset=UTF-8");
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") exit(0);
 
 require_once __DIR__ . "/env_loader.php";
+require_once __DIR__ . '/jwt_helper.php';
 
 if($_SERVER["REQUEST_METHOD"] !== "POST"){
     http_response_code(405);
@@ -18,10 +19,28 @@ $data = json_decode(file_get_contents("php://input"),true);
 $email = $data["email"] ?? null;
 $password = $data["password"] ?? null;
 $username = $data["username"] ?? null;
+$userEnteredCode = $data['verificationCode'] ?? null;
+$verificationToken = $data['verificationToken'] ?? null;
 
-if(!$email || !$password || !$username) {
+if(!$email || !$password || !$username || !$userEnteredCode || !$verificationToken) {
     http_response_code(400);
-    echo json_encode(["error" => "Missing required registration fields."]);
+    echo json_encode(["error" => "Missing required registration or verification parameters."]);
+    exit;
+}
+
+// check for verification code
+$parts = explode('.', $verificationToken);
+$payload = json_decode(base64_decode(str_replace(['-', '_'], ['+', '/'], $parts[1])), true);
+
+if (time() > $payload['exp'] || $payload['email'] !== $email) {
+    http_response_code(400);
+    echo json_encode(["error" => "Verification code has expired or email doesn't match."]);
+    exit;
+}
+
+if (!password_verify($userEnteredCode, $payload['code_hash'])) {
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid verification code!"]);
     exit;
 }
 

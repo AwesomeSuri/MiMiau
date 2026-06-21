@@ -3,6 +3,8 @@ import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-register',
@@ -11,15 +13,39 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: '../landing.css',
 })
 export class Register {
+  apiUrl = environment.phpApiUrl;
+
   username = "";
   email = "";
+  verificationCode = "";
+  receivedVerificationToken = "";
+  isSendingCode = false;
   password = "";
   passwordConfirm = "";
 
   errorMessage = "";
   isLoading = false;
 
-  constructor(private auth: Auth, private cdr: ChangeDetectorRef, private router: Router) { }
+  constructor(
+    private auth: Auth, 
+    private cdr: ChangeDetectorRef, 
+    private router: Router,
+    private http: HttpClient,
+  ) { }
+
+  sendCode() {
+    this.isSendingCode = true;
+    this.auth.sendVerificationCode(this.email).subscribe({
+      next: (res) => {
+        this.isSendingCode = false;
+        this.receivedVerificationToken = res.verificationToken;
+      },
+      error: (err) => {
+        this.isSendingCode = false;
+        console.error("Verification code could not be sent:", err);
+      }
+    })
+  }
 
   onRegister() {
     this.errorMessage = "";

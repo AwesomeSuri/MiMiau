@@ -4,13 +4,14 @@
     <form #registerForm="ngForm" (ngSubmit)="registerForm.form.valid && onRegister()">
         <div class="form-input-container">
             <label>Username</label>
-            <input type="text" [(ngModel)]="username" name="username" required minlength="3"
-                pattern="^[a-zA-Z0-9\-_]+$" #usernameInput="ngModel" class="form-input">
+            <input type="text" [(ngModel)]="username" name="username" required minlength="3" pattern="^[a-zA-Z0-9\-_]+$"
+                #usernameInput="ngModel" class="form-input">
             <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)"
                 class="form-error-message">
                 <span *ngIf="usernameInput.errors?.['required']">Username is required.</span>
                 <span *ngIf="usernameInput.errors?.['minlength']">Must be at least 3 characters.</span>
-                <span *ngIf="usernameInput.errors?.['pattern']">Only alphanumeric characters, dashes, and underscores allowed.</span>
+                <span *ngIf="usernameInput.errors?.['pattern']">Only alphanumeric characters, dashes, and underscores
+                    allowed.</span>
             </div>
         </div>
 
@@ -24,30 +25,45 @@
             </div>
         </div>
 
+        <div class="form-input-code-container">
+            <button class="code-button" (click)="sendCode()">
+                {{ receivedVerificationToken ? "Re-Send Code" : "Send Code" }}
+            </button>
+            <input type="text" [(ngModel)]="verificationCode" name="verificationCode" required #codeInput="ngModel"
+                placeholder="Enter Code" class="code-input">
+            <p *ngIf="receivedVerificationToken" class="code-sent-message">Code sent to to your Email-Address.</p>
+            <div *ngIf="codeInput.invalid && (codeInput.dirty || codeInput.touched)" class="form-error-message">
+                <span *ngIf="codeInput.errors?.['required']">Verification Code is required.</span>
+            </div>
+        </div>
+
         <div class="form-input-container">
             <label>Password</label>
-            <input type="password" [(ngModel)]="password" name="password" required
-                pattern="^[a-zA-Z0-9]{4,}$" #passwordInput="ngModel"
-                class="form-input">
+            <input type="password" [(ngModel)]="password" name="password" required pattern="^[a-zA-Z0-9]{4,}$"
+                #passwordInput="ngModel" class="form-input">
             <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
                 class="form-error-message">
                 <span *ngIf="passwordInput.errors?.['required']">Password is required.</span>
-                <span *ngIf="passwordInput.errors?.['pattern']">Must be at least 4 characters long and contain only letters and numbers.</span>
+                <span *ngIf="passwordInput.errors?.['pattern']">Must be at least 4 characters long and contain only
+                    letters and numbers.</span>
             </div>
         </div>
 
         <div class="form-input-container">
             <label>Confirm Password</label>
-            <input type="password" [(ngModel)]="passwordConfirm" name="passwordConfirm" required #passwordConfirmInput="ngModel"
-                class="form-input">
+            <input type="password" [(ngModel)]="passwordConfirm" name="passwordConfirm" required
+                #passwordConfirmInput="ngModel" class="form-input">
             <div *ngIf="(passwordConfirmInput.invalid || passwordConfirm !== password) && (passwordConfirmInput.dirty || passwordConfirmInput.touched)"
                 class="form-error-message">
                 <span *ngIf="passwordConfirmInput.errors?.['required']">Please confirm your password.</span>
-                <span *ngIf="passwordConfirmInput !== passwordInput && !passwordConfirmInput.errors?.['required']">Passwords do not match.</span>
+                <span
+                    *ngIf="passwordConfirmInput !== passwordInput && !passwordConfirmInput.errors?.['required']">Passwords
+                    do not match.</span>
             </div>
         </div>
 
-        <button type="submit" [disabled]="registerForm.form.invalid || isLoading || password !== passwordConfirm" class="form-button">
+        <button type="submit" [disabled]="registerForm.form.invalid || isLoading || password !== passwordConfirm"
+            class="form-button">
             <span *ngIf="isLoading" class="spinner"></span>
             <span *ngIf="!isLoading">Sign Up</span></button>
     </form>

@@ -12,6 +12,10 @@ export interface LoginResponse extends AuthResponse {
   userId: number;
 }
 
+export interface SendVerificationCodeResponse extends AuthResponse {
+  verificationToken: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,6 +28,10 @@ export class Auth {
 
   register(username: string, email: string, password: string): Observable<AuthResponse>{
     return this.http.post<AuthResponse>(`${this.apiUrl}/register.php`, {username,email,password});
+  }
+
+  sendVerificationCode(email: string): Observable<SendVerificationCodeResponse> {
+    return this.http.post<SendVerificationCodeResponse>(`${this.apiUrl}/send_verification_code.php`, { email });
   }
 
   login(email: string, password: string): Observable<LoginResponse>{

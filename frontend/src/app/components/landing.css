@@ -18,13 +18,28 @@
 .form-input {
     width: 100%;
     padding: 8px;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .form-input-container {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     display: flex;
     flex-wrap: wrap;
+}
+
+.form-input-code-container {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.code-button {
+    padding: 4px;
+}
+
+.code-input {
+    padding: 4px;
 }
 
 .form-button {
@@ -66,7 +81,7 @@
 .form-error-message {
     color: red;
     font-size: 0.8em;
-    margin-top: 5px;
+    margin-top: 4px;
 }
 
 .spinner {
