@@ -100,17 +100,9 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/my-cats", verifySession, async (req, res) => {
-  const sessionId = req.headers["sessionid"];
+  const { userid } = req.headers;
 
   try {
-    const [users] = await db.execute(
-      "SELECT id FROM users WHERE current_session_id = ?",
-      [sessionId],
-    );
-    if (users.length === 0)
-      return res.status(401).json({ error: "Invalid session" });
-    const userId = users[0].id;
-
     const [cats] = await db.execute(
       `
         SELECT 
@@ -124,7 +116,7 @@ app.get("/api/my-cats", verifySession, async (req, res) => {
         JOIN cats_catalog c ON uc.id = c.id
         WHERE uc.user_id = ?
       `,
-      [userId],
+      [userid],
     );
 
     const precessedCats = cats.map((cat) => {
@@ -152,7 +144,7 @@ app.get("/api/my-cats", verifySession, async (req, res) => {
 });
 
 app.post("/api/logout", verifySession, async (req, res) => {
-  const userid = parseInt(req.headers["userid"], 10);
+  const { userid } = req.headers;
 
   try {
     await db.execute(

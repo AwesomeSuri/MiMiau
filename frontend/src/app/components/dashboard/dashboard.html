@@ -20,8 +20,8 @@
 </div>
 
 <app-gacha-overlay 
-  *ngIf="gachaCat"
-  [cat]="gachaCat" 
+  *ngIf="catState.gachaCat()"
+  [cat]="catState.gachaCat()" 
   [overflow]="true"
   (close)="closeOverlay()">
 </app-gacha-overlay>

@@ -6,8 +6,6 @@ import { InteractiveViewport } from '../interactive-viewport/interactive-viewpor
 import { GameRoom } from '../game-room/game-room';
 import { CatState } from '../../services/cat-state';
 import { GachaOverlay } from '../gacha-overlay/gacha-overlay';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,28 +14,22 @@ import { environment } from '../../../environments/environment.development';
   styleUrls: ['./dashboard.css', '../landing.css'],
 })
 export class Dashboard implements OnInit {  
-  private apiUrl = environment.apiUrl;
-
   errorMessage = "";
   isLoading = false;
-
-  gachaCat: any | null = null;
-  overflowCat = false;
 
   constructor(
     private auth: Auth,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private catState: CatState,
-    private http: HttpClient
+    public catState: CatState,
   ) { }
 
   ngOnInit(): void {
     this.catState.fetchMyCats();
   }
-  
+
   closeOverlay() {
-    this.gachaCat = null;
+    this.catState.clearGachaCat();
   }
 
   onLogout() {

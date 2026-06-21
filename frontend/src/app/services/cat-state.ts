@@ -44,4 +44,8 @@ export class CatState {
   clearState() {
     this.catsSignal.set([]);
   }
+
+  clearGachaCat() {
+    this.gachaCatSignal.set(null);
+  }
 }
