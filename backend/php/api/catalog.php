@@ -8,10 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     exit(0);
 }
 
-$host = "127.0.0.1";
-$db = "mimiau";
-$user = "root";
-$pass = "miaupassword";
+require_once __DIR__ . "/env_loader.php";
+
+$host = getenv("DB_HOST") ?: "127.0.0.1";
+$db = getenv("DB_NAME");
+$user = getenv("DB_USER");
+$pass = getenv("DB_PASS");
 $charset = "utf8mb4";
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
