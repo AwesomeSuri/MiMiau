@@ -47,17 +47,14 @@ curl_setopt($ch, CURLOPT_STDERR, $verboseLog);
 $response = curl_exec($ch);
 
 if ($response === false) {
-    rewind($verboseLog);
-    $verboseDetails = stream_get_contents($verboseLog);
-    fclose($verboseLog);
-    
-    error_log("[MiMiau cURL INTERNAL STREAM]:\n" . $verboseDetails);
+    $numericCode = curl_errno($ch); 
+    $curlErrMsg = curl_error($ch);
     
     http_response_code(502);
     echo json_encode([
         "error" => "Failed to reach the email gateway.",
-        "details" => empty(curl_error($ch)) ? "Internal engine abort" : curl_error($ch),
-        "verbose_stream" => $verboseDetails
+        "details" => empty($curlErrMsg) ? "Internal engine abort" : $curlErrMsg,
+        "curl_error_number" => $numericCode // 🚀 Look closely at this number!
     ]);
     exit;
 }
