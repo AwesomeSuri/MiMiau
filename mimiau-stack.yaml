@@ -16,6 +16,7 @@ spec:
       containers:
         - name: frontend
           image: mimiau-frontend:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 ---
@@ -47,6 +48,7 @@ spec:
       containers:
         - name: php
           image: mimiau-backend-php:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 9000
 ---
@@ -67,6 +69,7 @@ kind: Ingress
 metadata:
   name: mimiau-ingress
   annotations:
+  kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   ingressClassName: traefik
