@@ -51,6 +51,10 @@ export class Auth {
     return this.http.post<AuthResponse>(`${this.apiUrl}/request_reset.php`, { email });
   }
 
+  resetPassword(token: string, newPassword: string): Observable<AuthResponse>{
+    return this.http.post<AuthResponse>(`${this.apiUrl}/execute_reset.php`, { token, newPassword });
+  }
+
   logout(): Observable<AuthResponse> {
     localStorage.removeItem('mimiau_jwt');
     localStorage.removeItem('mimiau_user_id');
