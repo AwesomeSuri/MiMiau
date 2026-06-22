@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '@env/environment.development';
+import { environment } from '@env/environment';
 import { catchError, Observable, of, tap } from 'rxjs';
 
 export interface CatType {

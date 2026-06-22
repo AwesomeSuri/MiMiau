@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { environment } from '@env/environment.development';
+import { environment } from '@env/environment';
 import { Auth } from '@services/auth';
 
 @Component({

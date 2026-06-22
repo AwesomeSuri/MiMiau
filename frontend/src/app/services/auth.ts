@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '@env/environment.development';
+import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
