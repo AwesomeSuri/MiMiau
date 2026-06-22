@@ -47,12 +47,16 @@ export class Auth {
     )
   }
 
-  requestPasswordReset(email: string): Observable<AuthResponse>{
+  requestPasswordReset(email: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/request_reset.php`, { email });
   }
 
-  resetPassword(token: string, newPassword: string): Observable<AuthResponse>{
+  resetPassword(token: string, newPassword: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/execute_reset.php`, { token, newPassword });
+  }
+
+  changePassword(currentPassword: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/change_password.php`, { currentPassword, password });
   }
 
   logout(): Observable<AuthResponse> {
@@ -63,5 +67,23 @@ export class Auth {
     this.currentUserId.set(null);
 
     return this.http.post<AuthResponse>(`${this.apiUrl}/logout.php`, {});
+  }
+
+  getUsername(): string {
+    const token = localStorage.getItem('mimiau_jwt');
+    if (!token) return 'Guest';
+
+    try {
+      const payloadPart = token.split('.')[1];
+
+      const decodedPayload = atob(payloadPart.replace(/-/g, '+').replace(/_/g, '/'));
+
+      const userObject = JSON.parse(decodedPayload);
+
+      return userObject.username || 'Cat Parent';
+    } catch (error) {
+      console.error("Failed parsing identity token structures", error);
+      return 'Cat Parent';
+    }
   }
 }

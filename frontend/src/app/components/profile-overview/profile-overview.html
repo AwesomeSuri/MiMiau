@@ -1,0 +1,11 @@
+<div class="window-container">
+    <h2>Profile</h2>
+
+    <p>Username: {{ username }}</p>
+    
+    <div class="menu-list">
+      <button routerLink="/profile/change-password" class="menu-item">Change Password</button>
+      <button (click)="onLogout()" class="menu-item logout">Logout</button>
+      <button class="menu-item delete" disabled>Delete Account</button>
+    </div>
+  </div>

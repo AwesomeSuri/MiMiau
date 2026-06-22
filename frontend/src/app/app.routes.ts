@@ -6,6 +6,8 @@ import { anonGuard } from './guards/anon-guard';
 import { authGuard } from './guards/auth-guard';
 import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { ResetPassword } from './components/reset-password/reset-password';
+import { ProfileOverview } from './components/profile-overview/profile-overview';
+import { ChangePassword } from './components/change-password/change-password';
 
 export const routes: Routes = [
     {path: "", redirectTo: "login", pathMatch: "full"},
@@ -15,6 +17,8 @@ export const routes: Routes = [
     {path: "forgot-password", component: ForgotPassword, canActivate: [anonGuard]},
     {path: "reset-password", component: ResetPassword, canActivate: [anonGuard]},
     {path: "dashboard", component: Dashboard, canActivate: [authGuard]},
+    {path: "profile", component: ProfileOverview, canActivate: [authGuard]},
+    {path: "profile/change-password", component: ChangePassword, canActivate: [authGuard]},
 
     {path: "**", redirectTo: "login"}
 ];

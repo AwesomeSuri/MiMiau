@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Auth } from '../../services/auth';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { InteractiveViewport } from '../interactive-viewport/interactive-viewport';
 import { GameRoom } from '../game-room/game-room';
@@ -11,7 +11,14 @@ import { CatsCatalog } from '../../services/cats-catalog';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, InteractiveViewport, GameRoom, GachaOverlay, CatDetailCard],
+  imports: [
+    CommonModule, 
+    RouterModule,
+    InteractiveViewport, 
+    GameRoom, 
+    GachaOverlay, 
+    CatDetailCard, 
+  ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css', '../landing.css'],
 })

@@ -1,0 +1,40 @@
+.window-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+button {
+    transition: filter 200ms;
+}
+
+button:hover {
+    filter: brightness(0.9);
+}
+
+.menu-list {
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+    margin-top: 32px;
+}
+
+.menu-item {
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+}
+
+.menu-item.logout {
+    background-color: #ff5722;
+    color: white;
+}
+
+.menu-item.delete {
+    background-color: #999;
+    color: white;
+}

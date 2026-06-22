@@ -10,13 +10,13 @@
   <div class="bottom-nav">
     <div>
       @for (cat of catsCatalog(); track cat.id) {
-        <span>{{cat.name}}</span>
+      <span>{{cat.name}}</span>
       }
     </div>
     <div></div>
     <div></div>
-    <button (click)="onLogout()" [disabled]="isLoading" class="form-button">
-      {{ isLoading ? 'Logging out...' : 'Log Out' }}
+    <button routerLink="/profile" routerLinkActive="active-nav-tint" class="nav-button">
+      Profile
     </button>
 
     <p *ngIf="errorMessage" class="form-error-message">{{ errorMessage }}</p>
