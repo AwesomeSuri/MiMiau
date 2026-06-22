@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { CatState } from '../../services/cat-state';
 import { CommonModule } from '@angular/common';
+import { CatState } from '@services/cat-state';
 
 @Component({
   selector: 'app-cat-detail-card',

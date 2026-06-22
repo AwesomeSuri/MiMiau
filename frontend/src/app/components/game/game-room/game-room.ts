@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CatState } from '../../services/cat-state';
+import { CatState } from '@services/cat-state';
 
 @Component({
   selector: 'app-game-room',

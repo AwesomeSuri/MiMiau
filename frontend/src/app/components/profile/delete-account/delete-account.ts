@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '../../../services/auth';
+import { Auth } from '@services/auth';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './delete-account.html',
   styleUrls: [
     './delete-account.css',
-    '../landing.css',
     '../change-password/change-password.css'
   ],
 })

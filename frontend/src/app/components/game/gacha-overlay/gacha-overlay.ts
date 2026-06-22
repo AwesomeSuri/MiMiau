@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CatState } from '../../services/cat-state';
+import { Component, Input, OnInit } from '@angular/core';
+import { CatState } from '@services/cat-state';
 
 @Component({
   selector: 'app-gacha-overlay',

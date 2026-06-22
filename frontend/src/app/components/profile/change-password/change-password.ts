@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { Auth } from '../../../services/auth';
+import { Auth } from '@services/auth';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-change-password',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './change-password.html',
-  styleUrls: ['./change-password.css', '../landing.css'],
+  styleUrl: './change-password.css',
 })
 export class ChangePassword {
   currentPassword = "";

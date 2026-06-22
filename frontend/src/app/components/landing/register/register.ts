@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '@env/environment.development';
+import { Auth } from '@services/auth';
 
 @Component({
   selector: 'app-register',

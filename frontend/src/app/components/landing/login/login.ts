@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '../../services/auth';
 import { Router, RouterModule } from '@angular/router';
+import { Auth } from '@services/auth';
 
 @Component({
   selector: 'app-login',
