@@ -26,7 +26,11 @@ $verificationToken = JWTHelper::generate([
 ], 300);
 
 $makeWebhookUrl = getenv("MAKE_WEBHOOK");
-error_log("[MiMiau Verification Engine] makeWebhookUrl: " . $makeWebhookUrl);
+if(!$makeWebhookUrl){
+    http_response_code(500);
+    echo json_encode(["error" => "Cannot connect to External Mail Service."]);
+    exit;
+}
 
 $payloadData = [
     "email" => $email,
@@ -43,20 +47,11 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 
 $response = curl_exec($ch);
 
-if ($response === false) {
-    $numericCode = curl_errno($ch); 
-    $curlErrMsg = curl_error($ch);
-    
+if ($response === false) {    
     http_response_code(502);
-    echo json_encode([
-        "error" => "Failed to reach the email gateway.",
-        "details" => empty($curlErrMsg) ? "Internal engine abort" : $curlErrMsg,
-        "curl_error_number" => $numericCode // 🚀 Look closely at this number!
-    ]);
+    echo json_encode(["error" => "Failed to reach the email gateway."]);
     exit;
 }
-
-error_log("[MiMiau Verification Engine] Make.com API Handshake Status: " . $response);
 
 echo json_encode([
     "message" => "Verification code sent to your inbox!",
