@@ -1,4 +1,4 @@
-<div class="login-container landing-container">
+<div class="landing-container">
     <h2>Welcome back to MiMiau 🐾</h2>
     
     <form (ngSubmit)="onLogin()">
@@ -20,5 +20,6 @@
   
     <p *ngIf="errorMessage" class="form-error-message">{{ errorMessage }}</p>
 
+    <a routerLink="/forgot-password" class="secondary-button">Forgot Password</a>
     <p class="form-bottom-text">New to MiMiau? <a routerLink="/register">Create a new account</a></p>
   </div>

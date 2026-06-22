@@ -13,6 +13,8 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-input {
@@ -58,9 +60,7 @@
 }
 
 .form-bottom-text a {
-    color: #aaa;
-    cursor: pointer;
-    text-decoration: underline;
+    color: gray;
 }
 
 .form-error-message {
@@ -85,4 +85,17 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.back-button {
+    margin-top: -8px;
+    font-size: 0.9em;
+    color: gray;
+}
+
+.secondary-button {
+    margin: auto;
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: gray;
 }
