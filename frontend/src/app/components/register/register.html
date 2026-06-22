@@ -31,8 +31,7 @@
             </button>
             <input type="text" [(ngModel)]="verificationCode" name="verificationCode" required #codeInput="ngModel"
                 placeholder="Enter Code" class="code-input">
-                <div></div>
-                <div *ngIf="codeInput.invalid && (codeInput.dirty || codeInput.touched)" class="form-error-message">
+            <div *ngIf="sendCodeErrorMessage || codeInput.invalid && (codeInput.dirty || codeInput.touched)" class="form-error-message">
                 <span *ngIf="codeInput.errors?.['required']">Verification Code is required.</span>
             </div>
         </div>
@@ -70,5 +69,5 @@
 
     <p *ngIf="errorMessage" class="form-error-message">{{ errorMessage }}</p>
 
-    <p class="form-message">Already have an account? <a routerLink="/login">Sign In here</a></p>
+    <p class="form-bottom-text">Already have an account? <a routerLink="/login">Sign In here</a></p>
 </div>

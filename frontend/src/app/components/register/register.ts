@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment.development';
   selector: 'app-register',
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: '../landing.css',
+  styleUrls: ['./register.css', '../landing.css'],
 })
 export class Register {
   apiUrl = environment.phpApiUrl;
@@ -23,26 +23,30 @@ export class Register {
   passwordConfirm = "";
 
   errorMessage = "";
+  sendCodeErrorMessage = "";
   isLoading = false;
 
   constructor(
-    private auth: Auth, 
-    private cdr: ChangeDetectorRef, 
+    private auth: Auth,
+    private cdr: ChangeDetectorRef,
     private router: Router,
   ) { }
 
   sendCode() {
     this.isSendingCode = true;
+    this.sendCodeErrorMessage = "";
+
     this.auth.sendVerificationCode(this.email).subscribe({
       next: (res) => {
         this.isSendingCode = false;
         this.receivedVerificationToken = res.verificationToken;
+        this.sendCodeErrorMessage = "";
         this.cdr.detectChanges();
       },
       error: (err) => {
         this.isSendingCode = false;
         this.cdr.detectChanges();
-        console.error("Verification code could not be sent:", err);
+        this.sendCodeErrorMessage = err.error?.error || "Code could not be sent.";
       }
     })
   }
@@ -51,7 +55,7 @@ export class Register {
     this.errorMessage = "";
     this.isLoading = true;
 
-    this.auth.register(this.username, this.email, this.password).subscribe({
+    this.auth.register(this.username, this.email, this.password, this.verificationCode, this.receivedVerificationToken).subscribe({
       next: () => {
         this.auth.login(this.email, this.password).subscribe({
           next: () => {
@@ -60,14 +64,18 @@ export class Register {
         });
       },
       error: (err) => {
-        var code = err.error?.error?.code
-        if (code) {
-          switch (code) {
-            case "ER_DUP_ENTRY":
-              this.errorMessage = "This email address is already in use.";
-              break;
-            default:
-              this.errorMessage = "Registration failed with unknown code.";
+        if(typeof err.error?.error === "string"){
+          this.errorMessage = err.error.error;
+        } else if(err.error?.error?.code) {
+          const code = err.error?.error?.code;
+          if (code) {
+            switch (code) {
+              case "ER_DUP_ENTRY":
+                this.errorMessage = "This email address is already in use.";
+                break;
+              default:
+                this.errorMessage = "Registration failed with unknown code.";
+            }
           }
         } else {
           this.errorMessage = "Registration failed.";

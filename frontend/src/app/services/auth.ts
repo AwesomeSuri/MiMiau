@@ -26,16 +26,17 @@ export class Auth {
   currentUserToken = signal<string | null>(localStorage.getItem("mimiau_jwt"));
   currentUserId = signal<number | null>(Number(localStorage.getItem("mimiau_user_id")) || null);
 
-  register(username: string, email: string, password: string): Observable<AuthResponse>{
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register.php`, {username,email,password});
+  register(username: string, email: string, password: string, verificationCode: string, verificationToken: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register.php`,
+      { username, email, password, verificationCode, verificationToken });
   }
 
   sendVerificationCode(email: string): Observable<SendVerificationCodeResponse> {
     return this.http.post<SendVerificationCodeResponse>(`${this.apiUrl}/send_verification_code.php`, { email });
   }
 
-  login(email: string, password: string): Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login.php`, {email, password}).pipe(
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login.php`, { email, password }).pipe(
       tap((response: LoginResponse) => {
         localStorage.setItem("mimiau_jwt", response.token);
         localStorage.setItem("mimiau_user_id", String(response.userId));
@@ -49,7 +50,7 @@ export class Auth {
   logout(): Observable<AuthResponse> {
     localStorage.removeItem('mimiau_jwt');
     localStorage.removeItem('mimiau_user_id');
-    
+
     this.currentUserToken.set(null);
     this.currentUserId.set(null);
 

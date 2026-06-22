@@ -27,21 +27,6 @@
     flex-wrap: wrap;
 }
 
-.form-input-code-container {
-    margin-bottom: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 16px;
-}
-
-.code-button {
-    padding: 4px;
-}
-
-.code-input {
-    padding: 4px;
-}
-
 .form-button {
     width: 100%;
     padding: 10px;
@@ -66,19 +51,20 @@
     cursor: not-allowed !important;
 }
 
-.form-message {
+.form-bottom-text {
     margin-top: 20px;
     font-size: 0.9em;
     text-align: center;
 }
 
-.form-message a {
+.form-bottom-text a {
     color: #aaa;
     cursor: pointer;
     text-decoration: underline;
 }
 
 .form-error-message {
+    width: 100%;
     color: red;
     font-size: 0.8em;
     margin-top: 4px;
