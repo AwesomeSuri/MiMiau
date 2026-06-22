@@ -16,6 +16,6 @@ sudo kubectl apply -f mimiau-stack.yaml
 # 4. Restart pods to force them to use the new images
 echo "Rolling out updates..."
 sudo kubectl rollout restart deployment/angular-frontend
-sudo kubectl rollout restart deployment/php-backend-php
+sudo kubectl rollout restart deployment/php-backend
 
 echo "Deployment complete!"
