@@ -1,16 +1,26 @@
 #!/bin/bash
 
-# Build the updated containers
-echo "Building Docker images..."
+# 1. Build the fresh images
+echo "Building images..."
 sudo docker build --no-cache -t mimiau-frontend:v1 ./frontend
 sudo docker build --no-cache -t mimiau-backend-php:v1 ./backend/php
 
-# Apply the YAML config (in case you changed environment variables/ports)
-echo "Applying Kubernetes configuration..."
-sudo kubectl apply -f mimiau-stack.yaml
+# 2. Export them so K3s can see them
+echo "Exporting images for K3s..."
+sudo docker save mimiau-frontend:v1 > frontend.tar
+sudo docker save mimiau-backend-php:v1 > backend.tar
 
-# Restart pods to force them to use the new images
-echo "Rolling out updates..."
+# 3. Import them into K3s (The crucial bridge)
+echo "Importing into K3s..."
+sudo k3s ctr images import frontend.tar
+sudo k3s ctr images import backend.tar
+
+# 4. Cleanup temporary files
+rm frontend.tar backend.tar
+
+# 5. Apply and rollout
+echo "Deploying..."
+sudo kubectl apply -f mimiau-stack.yaml
 sudo kubectl rollout restart deployment/angular-frontend
 sudo kubectl rollout restart deployment/php-backend
 
