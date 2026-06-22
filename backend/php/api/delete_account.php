@@ -28,7 +28,7 @@ if (time() > $payload['exp']) {
     exit;
 }
 
-$userId    = $payload['id'] ?? null;
+$userId    = $payload['userId'] ?? null;
 
 $data = json_decode(file_get_contents("php://input"), true);
 $passwordConfirm = $data['password'] ?? null;
@@ -43,7 +43,7 @@ $dsn = "mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";ch
 try {
     $pdo = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'), [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-    $stmt = $pdo->prepare("SELECT id, email, password FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE id = ?");
     $stmt->execute([$userId]);
     $user = $stmt->fetch();
 
