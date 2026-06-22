@@ -55,8 +55,8 @@ export class Auth {
     return this.http.post<AuthResponse>(`${this.apiUrl}/execute_reset.php`, { token, newPassword });
   }
 
-  changePassword(currentPassword: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/change_password.php`, { currentPassword, password });
+  changePassword(currentPassword: string, newPassword: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/change_password.php`, { currentPassword, newPassword });
   }
 
   logout(): Observable<AuthResponse> {

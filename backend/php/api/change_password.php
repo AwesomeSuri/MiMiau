@@ -28,7 +28,7 @@ if (time() > $payload['exp']) {
     exit;
 }
 
-$userEmail = $payload['email'] ?? null;
+$userId = $payload['userId'] ?? null;
 
 $data = json_decode(file_get_contents("php://input"), true);
 $currentPassword = $data['currentPassword'] ?? null;
@@ -44,8 +44,8 @@ $dsn = "mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";ch
 try {
     $pdo = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'), [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-    $stmt = $pdo->prepare("SELECT password FROM users WHERE email = ?");
-    $stmt->execute([$userEmail]);
+    $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->execute([$userId]);
     $user = $stmt->fetch();
 
     if (!$user || !password_verify($currentPassword, $user['password'])) {
@@ -55,8 +55,8 @@ try {
     }
 
     $newHash = password_hash($newPassword, PASSWORD_BCRYPT, ['cost' => 10]);
-    $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE email = ?");
-    $updateStmt->execute([$newHash, $userEmail]);
+    $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+    $updateStmt->execute([$newHash, $userId]);
 
     echo json_encode(["message" => "Password altered successfully!"]);
 } catch (\PDOException $e) {
