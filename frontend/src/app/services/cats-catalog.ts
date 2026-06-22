@@ -16,7 +16,7 @@ export interface CatType {
 })
 export class CatsCatalog {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.phpApiUrl}/cats_catalog.php`;
+  private apiUrl = `${environment.phpApiUrl}/game/cats_catalog.php`;
 
   private catalogSignal = signal<CatType[]>([]);
   public catalog = this.catalogSignal.asReadonly();

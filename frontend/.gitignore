@@ -1,7 +1,7 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/dist
+#/dist --> we push the build directly to the server
 /tmp
 /out-tsc
 /bazel-out
