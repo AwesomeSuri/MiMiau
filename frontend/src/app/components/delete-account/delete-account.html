@@ -1,0 +1,26 @@
+<div class="window-page-container">
+    <div class="window-breadcrumb-container">
+      <a routerLink="/profile" class="window-breadcrumb">Back to Profile</a>
+    </div>
+
+    <h2>Delete Account</h2>
+    
+    <form #deleteAccountForm="ngForm" (ngSubmit)="deleteAccountForm.form.valid && onSubmit()">
+        <div class="form-input-container">
+            <label>Password</label>
+            <input type="password" [(ngModel)]="password" name="password" required
+                #passwordInput="ngModel" class="form-input">
+            <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
+                class="form-error-message">
+                <span *ngIf="passwordInput.errors?.['required']">Password is required.</span>
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="deleteAccountForm.form.invalid || isLoading"
+            class="form-button">
+            <span *ngIf="isLoading" class="spinner"></span>
+            <span *ngIf="!isLoading">DELETE PERMANENTLY</span></button>
+    </form>
+
+    <p *ngIf="errorMessage" class="form-error-message">{{ errorMessage }}</p>
+  </div>

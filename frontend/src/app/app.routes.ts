@@ -8,6 +8,7 @@ import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { ResetPassword } from './components/reset-password/reset-password';
 import { ProfileOverview } from './components/profile-overview/profile-overview';
 import { ChangePassword } from './components/change-password/change-password';
+import { DeleteAccount } from './components/delete-account/delete-account';
 
 export const routes: Routes = [
     {path: "", redirectTo: "login", pathMatch: "full"},
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path: "dashboard", component: Dashboard, canActivate: [authGuard]},
     {path: "profile", component: ProfileOverview, canActivate: [authGuard]},
     {path: "profile/change-password", component: ChangePassword, canActivate: [authGuard]},
+    {path: "profile/delete-account", component: DeleteAccount, canActivate: [authGuard]},
 
     {path: "**", redirectTo: "login"}
 ];

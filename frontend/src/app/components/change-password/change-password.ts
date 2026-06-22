@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,10 @@ export class ChangePassword {
     private cdr: ChangeDetectorRef
   ){}
 
-  onSubmit() {
+  onSubmit(form: NgForm) {
+    if(document.activeElement instanceof HTMLElement){
+      document.activeElement.blur();
+    }
     this.isLoading = true;
     this.message = "";
     this.errorMessage = "";
@@ -36,6 +39,7 @@ export class ChangePassword {
         this.currentPassword = "";
         this.newPassword = "";
         this.confirmPassword = "";
+        form.resetForm();
         this.cdr.detectChanges();
       },
       error: (err) => {

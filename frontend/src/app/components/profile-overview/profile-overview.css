@@ -1,7 +1,14 @@
-.window-container {
-    height: 100%;
+:host {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.window-container {
+    width: 400px;
+    display: flex;
     flex-direction: column;
     text-align: center;
 }

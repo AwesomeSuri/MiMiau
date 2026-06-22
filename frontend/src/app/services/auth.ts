@@ -69,6 +69,10 @@ export class Auth {
     return this.http.post<AuthResponse>(`${this.apiUrl}/logout.php`, {});
   }
 
+  deleteAccount(password: string): Observable<AuthResponse> {
+    return this.http.delete<AuthResponse>(`${this.apiUrl}/delete_account.php`, { body: { password } });
+  }
+
   getUsername(): string {
     const token = localStorage.getItem('mimiau_jwt');
     if (!token) return 'Guest';
