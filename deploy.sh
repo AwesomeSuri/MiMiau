@@ -2,8 +2,8 @@
 
 # Build the updated containers
 echo "Building Docker images..."
-sudo docker build -t mimiau-frontend:v1 ./frontend
-sudo docker build -t mimiau-backend-php:v1 ./backend/php
+sudo docker build --no-cache -t mimiau-frontend:v1 ./frontend
+sudo docker build --no-cache -t mimiau-backend-php:v1 ./backend/php
 
 # Apply the YAML config (in case you changed environment variables/ports)
 echo "Applying Kubernetes configuration..."
