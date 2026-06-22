@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { Auth } from '../../services/auth';
+import { Auth } from '../../../services/auth';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CatState } from '../../../services/cat-state';
+import { CatsCatalog } from '../../../services/cats-catalog';
+import { CatDetailCard } from '../../game/cat-detail-card/cat-detail-card';
+import { GachaOverlay } from '../../game/gacha-overlay/gacha-overlay';
+import { GameRoom } from '../../game/game-room/game-room';
 import { InteractiveViewport } from '../interactive-viewport/interactive-viewport';
-import { GameRoom } from '../game-room/game-room';
-import { CatState } from '../../services/cat-state';
-import { GachaOverlay } from '../gacha-overlay/gacha-overlay';
-import { CatDetailCard } from '../cat-detail-card/cat-detail-card';
-import { CatsCatalog } from '../../services/cats-catalog';
 
 @Component({
   selector: 'app-dashboard',

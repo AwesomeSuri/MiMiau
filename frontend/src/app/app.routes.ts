@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
-import { Login } from './components/login/login';
-import { Register } from './components/register/register';
-import { Dashboard } from './components/dashboard/dashboard';
+import { Dashboard } from './components/home/dashboard/dashboard';
 import { anonGuard } from './guards/anon-guard';
 import { authGuard } from './guards/auth-guard';
-import { ForgotPassword } from './components/forgot-password/forgot-password';
-import { ResetPassword } from './components/reset-password/reset-password';
-import { ProfileOverview } from './components/profile-overview/profile-overview';
-import { ChangePassword } from './components/change-password/change-password';
-import { DeleteAccount } from './components/delete-account/delete-account';
+import { ProfileOverview } from './components/profile/profile-overview/profile-overview';
+import { ChangePassword } from './components/profile/change-password/change-password';
+import { DeleteAccount } from './components/profile/delete-account/delete-account';
+import { ForgotPassword } from './components/landing/forgot-password/forgot-password';
+import { Login } from './components/landing/login/login';
+import { Register } from './components/landing/register/register';
+import { ResetPassword } from './components/landing/reset-password/reset-password';
 
 export const routes: Routes = [
     {path: "", redirectTo: "login", pathMatch: "full"},

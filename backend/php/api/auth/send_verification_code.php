@@ -26,7 +26,7 @@ $verificationToken = JWTHelper::generate([
 ], 300);
 
 $makeWebhookUrl = getenv("MAKE_WEBHOOK");
-if(!$makeWebhookUrl){
+if (!$makeWebhookUrl) {
     http_response_code(500);
     echo json_encode(["error" => "Cannot connect to External Mail Service."]);
     exit;
@@ -47,7 +47,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 
 $response = curl_exec($ch);
 
-if ($response === false) {    
+if ($response === false) {
     http_response_code(502);
     echo json_encode(["error" => "Failed to reach the email gateway."]);
     exit;
