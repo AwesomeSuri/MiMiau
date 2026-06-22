@@ -16,13 +16,26 @@ export class ForgotPassword {
 
   email = "";
   message = "";
-  isLoading = "";
+  errorMessage = "";
+  isLoading = false;
 
   constructor(private auth: Auth){};
 
   onRequest() {
-    this.auth.requestPasswordReset(this.email).subscribe(
-       () => this.message = "Check your email box! If the account exists, your reset link is on its way."
+    this.message = "";
+    this.errorMessage = "";
+    this.isLoading = true;
+
+    this.auth.requestPasswordReset(this.email).subscribe({
+      next: () => {
+        this.message = "Check your email box! If the account exists, your reset link is on its way."
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.error || "Failed to send a request."
+      }
+    }
     );
   }
 }

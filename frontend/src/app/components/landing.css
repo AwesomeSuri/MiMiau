@@ -63,6 +63,12 @@
     color: gray;
 }
 
+.form-message {
+    width: 100%;
+    font-size: 0.8em;
+    margin-top: 4px;
+}
+
 .form-error-message {
     width: 100%;
     color: red;
@@ -88,6 +94,7 @@
 }
 
 .back-button {
+    align-self: flex-start;
     margin-top: -8px;
     font-size: 0.9em;
     color: gray;
