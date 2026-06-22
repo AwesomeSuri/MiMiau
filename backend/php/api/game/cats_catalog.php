@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     exit(0);
 }
 
-require_once __DIR__ . "/env_loader.php";
+require_once __DIR__ . "../env_loader.php";
 
 $host = getenv("DB_HOST") ?: "127.0.0.1";
 $db = getenv("DB_NAME");
@@ -47,7 +47,6 @@ try {
     }
 
     echo json_encode($processedCatalog);
-
 } catch (\PDOException $e) {
     http_response_code(500);
     echo json_encode([

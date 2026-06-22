@@ -6,23 +6,23 @@ header("Content-Type: application/json; charset=UTF-8");
 
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") exit(0);
 
-require_once __DIR__ . "/env_loader.php";
+require_once __DIR__ . "../env_loader.php";
 require_once __DIR__ . '/jwt_helper.php';
 
-if($_SERVER["REQUEST_METHOD"] !== "POST"){
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
     echo json_encode(["error" => "Method not allowed."]);
     exit;
 }
 
-$data = json_decode(file_get_contents("php://input"),true);
+$data = json_decode(file_get_contents("php://input"), true);
 $email = $data["email"] ?? null;
 $password = $data["password"] ?? null;
 $username = $data["username"] ?? null;
 $userEnteredCode = $data['verificationCode'] ?? null;
 $verificationToken = $data['verificationToken'] ?? null;
 
-if(!$email || !$password || !$username || !$userEnteredCode || !$verificationToken) {
+if (!$email || !$password || !$username || !$userEnteredCode || !$verificationToken) {
     http_response_code(400);
     echo json_encode(["error" => "Missing required registration or verification parameters."]);
     exit;

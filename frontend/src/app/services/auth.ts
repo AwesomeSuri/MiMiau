@@ -26,17 +26,21 @@ export class Auth {
   currentUserToken = signal<string | null>(localStorage.getItem("mimiau_jwt"));
   currentUserId = signal<number | null>(Number(localStorage.getItem("mimiau_user_id")) || null);
 
+  private getAuthUrl(path: string): string {
+    return this.apiUrl + "/auth" + path;
+  }
+
   register(username: string, email: string, password: string, verificationCode: string, verificationToken: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register.php`,
+    return this.http.post<AuthResponse>(this.getAuthUrl("/register.php"),
       { username, email, password, verificationCode, verificationToken });
   }
 
   sendVerificationCode(email: string): Observable<SendVerificationCodeResponse> {
-    return this.http.post<SendVerificationCodeResponse>(`${this.apiUrl}/send_verification_code.php`, { email });
+    return this.http.post<SendVerificationCodeResponse>(this.getAuthUrl("/send_verification_code.php"), { email });
   }
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login.php`, { email, password }).pipe(
+    return this.http.post<LoginResponse>(this.getAuthUrl("/login.php"), { email, password }).pipe(
       tap((response: LoginResponse) => {
         localStorage.setItem("mimiau_jwt", response.token);
         localStorage.setItem("mimiau_user_id", String(response.userId));
@@ -48,15 +52,15 @@ export class Auth {
   }
 
   requestPasswordReset(email: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/request_reset.php`, { email });
+    return this.http.post<AuthResponse>(this.getAuthUrl("/request_reset.php"), { email });
   }
 
   resetPassword(token: string, newPassword: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/execute_reset.php`, { token, newPassword });
+    return this.http.put<AuthResponse>(this.getAuthUrl("/execute_reset.php"), { token, newPassword });
   }
 
   changePassword(currentPassword: string, newPassword: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/change_password.php`, { currentPassword, newPassword });
+    return this.http.put<AuthResponse>(this.getAuthUrl("/change_password.php"), { currentPassword, newPassword });
   }
 
   logout(): Observable<AuthResponse> {
@@ -66,11 +70,11 @@ export class Auth {
     this.currentUserToken.set(null);
     this.currentUserId.set(null);
 
-    return this.http.post<AuthResponse>(`${this.apiUrl}/logout.php`, {});
+    return this.http.post<AuthResponse>(this.getAuthUrl("/logout.php"), {});
   }
 
   deleteAccount(password: string): Observable<AuthResponse> {
-    return this.http.delete<AuthResponse>(`${this.apiUrl}/delete_account.php`, { body: { password } });
+    return this.http.post<AuthResponse>(this.getAuthUrl("/delete_account.php"), { body: { password } });
   }
 
   getUsername(): string {
