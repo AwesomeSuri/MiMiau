@@ -1,3 +1,16 @@
+# --- MIDDLEWARE FOR FRONTEND ---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-index
+spec:
+  errors:
+    status:
+      - "404"
+    service:
+      name: angular-service
+      port: 80
+---
 # --- FRONTEND SERVICE ---
 apiVersion: apps/v1
 kind: Deployment
@@ -91,16 +104,3 @@ spec:
                 name: angular-service
                 port:
                   number: 80
----
-# --- MIDDLEWARE FOR FRONTEND ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: redirect-to-index
-spec:
-  errors:
-    status:
-      - "404"
-    service:
-      name: angular-service
-      port: 80
