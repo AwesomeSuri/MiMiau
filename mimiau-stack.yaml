@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: redirect-to-index
+  name: spa-redirect
   namespace: default
 spec:
   errors:
@@ -85,7 +85,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-to-index@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: default-spa-redirect@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
