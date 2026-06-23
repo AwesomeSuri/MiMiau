@@ -8,6 +8,7 @@ spec:
   errors:
     status:
       - "404"
+    query: /
     service:
       name: angular-service
       port: 80
