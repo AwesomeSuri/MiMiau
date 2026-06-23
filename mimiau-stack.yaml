@@ -1,25 +1,9 @@
-# --- MIDDLEWARE FOR FRONTEND ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: spa-redirect
-  namespace: default
-spec:
-  errors:
-    status:
-      - "404"
-    query: /
-    service:
-      name: angular-service
-      port: 80
----
-# --- FRONTEND SERVICE ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: angular-frontend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: angular-game
@@ -30,8 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: docker.io/library/mimiau-frontend:v1
-          imagePullPolicy: Never
+          image: nginx:alpine
           ports:
             - containerPort: 80
 ---
@@ -45,13 +28,12 @@ spec:
   selector:
     app: angular-game
 ---
-# --- PHP BACKEND SERVICE ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: php-backend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: php-api
@@ -62,8 +44,7 @@ spec:
     spec:
       containers:
         - name: php
-          image: docker.io/library/mimiau-backend-php:v1
-          imagePullPolicy: Never
+          image: php:8.1-fpm-alpine
           ports:
             - containerPort: 9000
 ---
@@ -78,32 +59,27 @@ spec:
   selector:
     app: php-api
 ---
-# --- INGRESS: THE TRAFFIC CONTROLLER ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mimiau-ingress
-  namespace: default
   annotations:
-    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: default-spa-redirect
 spec:
-  ingressClassName: traefik
   rules:
     - http:
         paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: php-service
-                port:
-                  number: 80
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: angular-service
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: php-service
                 port:
                   number: 80
