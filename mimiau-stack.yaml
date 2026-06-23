@@ -85,7 +85,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: spa-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: default-spa-redirect
 spec:
   ingressClassName: traefik
   rules:
