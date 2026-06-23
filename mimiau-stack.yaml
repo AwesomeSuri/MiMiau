@@ -16,7 +16,7 @@ spec:
       containers:
         - name: frontend
           image: docker.io/library/mimiau-frontend:v1
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           ports:
             - containerPort: 80
 ---
@@ -48,7 +48,7 @@ spec:
       containers:
         - name: php
           image: docker.io/library/mimiau-backend-php:v1
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           ports:
             - containerPort: 9000
 ---
