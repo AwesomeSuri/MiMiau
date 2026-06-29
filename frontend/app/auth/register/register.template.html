@@ -1,0 +1,137 @@
+<div layout="column" layout-fill layout-align="center center">
+  <md-card class="rounded-xl">
+    <md-card-content>
+      <h2 class="md-title mb-8" layout="row" layout-align="center center">
+        Join MiMiau 🐾
+      </h2>
+
+      <form
+        name="$ctrl.registerForm"
+        ng-submit="$ctrl.register()"
+        novalidate
+        layout="column"
+      >
+        <md-input-container class="md-block m-0">
+          <label>Username</label>
+          <input
+            ng-model="$ctrl.username"
+            name="username"
+            required
+            minlength="3"
+            ng-pattern="/^[a-zA-Z0-9\-_]+$/"
+          />
+          <div ng-messages="$ctrl.registerForm.username.$error">
+            <div ng-message="required">Username is required.</div>
+            <div ng-message="minlength">Must be at least 3 characters.</div>
+            <div ng-message="pattern">
+              Only letters, numbers, dashes, and underscores.
+            </div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Email</label>
+          <input ng-model="$ctrl.email" type="email" name="email" required />
+          <div ng-messages="$ctrl.registerForm.email.$error">
+            <div ng-message="required">Email is required.</div>
+            <div ng-message="email">Enter a valid email.</div>
+          </div>
+        </md-input-container>
+
+        <div layout="row" layout-align="start start">
+          <md-button
+            class="md-raised"
+            ng-click="$ctrl.sendCode()"
+            ng-disabled="$ctrl.isSendingCode || $ctrl.registerForm.email.$invalid"
+          >
+            {{ $ctrl.verificationToken ? "Re-Send Code" : "Send Code" }}
+          </md-button>
+          <md-input-container class="md-block" flex>
+            <label>Verification Code</label>
+            <input
+              ng-model="$ctrl.verificationCode"
+              name="verificationCode"
+              required
+            />
+            <div ng-messages="$ctrl.registerForm.verificationCode.$error">
+              <div ng-message="required">Verification code is required.</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <div
+          ng-if="$ctrl.sendCodeError"
+          class="md-body-1"
+          md-colors="{color: 'warn'}"
+        >
+          {{ $ctrl.sendCodeError }}
+        </div>
+
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input
+            ng-model="$ctrl.password"
+            type="password"
+            name="password"
+            required
+            ng-pattern="/^[a-zA-Z0-9]{4,}$/"
+          />
+          <div ng-messages="$ctrl.registerForm.password.$error">
+            <div ng-message="required">Password is required.</div>
+            <div ng-message="pattern">
+              At least 4 characters, letters and numbers only.
+            </div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Confirm Password</label>
+          <input
+            ng-model="$ctrl.passwordConfirm"
+            type="password"
+            name="passwordConfirm"
+            required
+          />
+          <div ng-messages="$ctrl.registerForm.passwordConfirm.$error">
+            <div ng-message="required">Please confirm your password.</div>
+          </div>
+        </md-input-container>
+
+        <div
+          ng-if="$ctrl.passwordConfirm && !$ctrl.passwordsMatch()"
+          class="md-body-1"
+          md-colors="{color: 'warn'}"
+        >
+          Passwords do not match.
+        </div>
+
+        <md-button
+          type="submit"
+          class="md-raised md-primary md-block"
+          ng-disabled="$ctrl.isLoading || $ctrl.registerForm.$invalid || !$ctrl.passwordsMatch()"
+        >
+          <span ng-if="!$ctrl.isLoading">Sign Up</span>
+          <md-progress-circular
+            ng-if="$ctrl.isLoading"
+            md-diameter="20"
+            md-mode="indeterminate"
+          ></md-progress-circular>
+        </md-button>
+      </form>
+
+      <div
+        ng-if="$ctrl.errorMessage"
+        class="md-body-1"
+        md-colors="{color: 'warn'}"
+        layout="row"
+        layout-align="center center"
+      >
+        {{ $ctrl.errorMessage }}
+      </div>
+
+      <p class="md-caption" layout="row" layout-align="center center">
+        Already have an account? <a href="#!/login">Sign In here</a>
+      </p>
+    </md-card-content>
+  </md-card>
+</div>

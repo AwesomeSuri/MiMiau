@@ -2,15 +2,28 @@
   "name": "MiMiau",
   "private": true,
   "dependencies": {
-    "angular": "^1.8.3"
+    "angular": "^1.8.3",
+    "angular-animate": "^1.8.3",
+    "angular-aria": "^1.8.3",
+    "angular-material": "^1.2.5",
+    "angular-messages": "^1.8.3",
+    "angular-route": "^1.8.3"
   },
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.1.2",
     "cpx": "^1.2.1",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "tailwindcss": "^3.4.17"
   },
   "scripts": {
-    "postinstall": "npm run copy-libs",
-    "copy-libs": "cpx \"node_modules/angular/**/*\" app/lib/angular -C",
-    "start": "http-server -a localhost -p 8000 -c-1 ./app"
+    "postinstall": "npm run copy-libs && npm run build:css",
+    "copy-libs": "cpx \"node_modules/{angular,angular-route,angular-animate,angular-aria,angular-messages,angular-material}/**/*\" app/lib -C",
+    "build:css": "tailwindcss -i ./app/styles/input.css -o ./app/app.css --minify",
+    "watch:css": "chokidar \"app/**/*.{html,js}\" \"app/styles/input.css\" -i \"app/app.css\" -c \"npm run build:css\" --initial",
+    "serve": "live-server app --port=8000 --host=localhost --wait=400",
+    "dev": "concurrently -k -n css,server -c blue,green \"npm run watch:css\" \"npm run serve\"",
+    "start": "npm run build:css && npm run dev"
   }
 }

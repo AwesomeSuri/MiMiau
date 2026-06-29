@@ -1,0 +1,65 @@
+<div layout="column" layout-fill layout-align="center center">
+  <md-card class="rounded-xl">
+    <md-card-content>
+      <h2 class="md-title mb-8" layout="row" layout-align="center center">
+        Welcome back to MiMiau 🐾
+      </h2>
+
+      <form
+        name="$ctrl.loginForm"
+        ng-submit="$ctrl.login()"
+        novalidate
+        layout="column"
+      >
+        <md-input-container class="md-block">
+          <label>Email Address</label>
+          <input ng-model="$ctrl.email" type="email" name="email" required />
+          <div ng-messages="$ctrl.loginForm.email.$error">
+            <div ng-message="required">Email is required.</div>
+            <div ng-message="email">Enter a valid email.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input
+            ng-model="$ctrl.password"
+            type="password"
+            name="password"
+            required
+          />
+          <div ng-messages="$ctrl.loginForm.password.$error">
+            <div ng-message="required">Password is required.</div>
+          </div>
+        </md-input-container>
+
+        <md-button
+          type="submit"
+          class="md-raised md-primary md-block"
+          ng-disabled="$ctrl.isLoading || $ctrl.loginForm.$invalid"
+        >
+          <span ng-if="!$ctrl.isLoading">Sign In</span>
+          <md-progress-circular
+            ng-if="$ctrl.isLoading"
+            md-diameter="20"
+            md-mode="indeterminate"
+          ></md-progress-circular>
+        </md-button>
+      </form>
+
+      <div
+        ng-if="$ctrl.errorMessage"
+        class="md-body-1"
+        md-colors="{color: 'warn'}"
+        layout="row"
+        layout-align="center center"
+      >
+        {{ $ctrl.errorMessage }}
+      </div>
+
+      <p class="md-caption" layout="row" layout-align="center center">
+        New to MiMiau? <a href="#!/register">Create a new account</a>
+      </p>
+    </md-card-content>
+  </md-card>
+</div>
