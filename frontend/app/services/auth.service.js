@@ -54,6 +54,22 @@ angular.module("mimiau.auth").factory("AuthService", [
             return res.data;
           });
       },
+
+      requestPasswordReset: function (email) {
+        return $http
+          .post(getAuthUrl("/request_reset.php"), { email })
+          .then(function (res) {
+            return res.data;
+          });
+      },
+
+      resetPassword: function (token, newPassword) {
+        return $http
+          .post(getAuthUrl("/execute_reset.php"), { token, newPassword })
+          .then(function (res) {
+            return res.data;
+          });
+      },
     };
   },
 ]);

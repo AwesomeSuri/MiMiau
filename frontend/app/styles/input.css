@@ -17,4 +17,17 @@
   md-input-container {
     margin-bottom: 0;
   }
+
+  login-view,
+  register-view,
+  forgot-password-view,
+  reset-password-view {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url("assets/backgrounds/landing-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
