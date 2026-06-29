@@ -22,7 +22,7 @@ function LoginController(AuthService, $location) {
 
     AuthService.login($ctrl.email, $ctrl.password)
       .then(function () {
-        $location.path("/");
+        $location.path("/dashboard");
       })
       .catch(function (err) {
         $ctrl.errorMessage =

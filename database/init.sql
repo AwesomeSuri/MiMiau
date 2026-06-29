@@ -21,6 +21,10 @@ CREATE TABLE IF NOT EXISTS user_cats (
     FOREIGN KEY (cat_id) REFERENCES cats_catalog(id) ON DELETE CASCADE
 );
 
-INSERT IGNORE INTO cats_catalog (id, name, appearance_asset) VALUES 
-(1, 'Bongo Cat', 'assets/cats/bongo.png'),
-(2, 'Pop Cat', 'assets/cats/pop.png');
+INSERT IGNORE INTO cats_catalog (id, name, image, sprite_sheet, facts) VALUES
+(1, 'Bongo Cat', 'assets/cats/bongo.png', 'assets/cats/bongo.png', '["Loves to bongo on tables"]'),
+(2, 'Pop Cat', 'assets/cats/pop.png', 'assets/cats/pop.png', '["Pop pop pop!"]');
+
+-- Local dev test user: test@example.com / password1234
+INSERT IGNORE INTO users (id, email, password, username) VALUES
+(1, 'test@example.com', '$2y$12$rlscjYb1K0PqXNkRx1fi1.G6eFbuHKmPVq823p9yKI3Nklx6wFiGq', 'TestUser');

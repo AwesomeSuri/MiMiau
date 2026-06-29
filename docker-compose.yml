@@ -23,12 +23,32 @@ services:
       timeout: 20s
       retries: 10
 
-  backend:
-    build: ./backend
+  php-api:
+    build: ./backend/php
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend/php/api:/var/www/html/api
+      - ./backend/php/.env:/var/www/html/.env:ro
+    env_file:
+      - ./backend/php/.env
+    environment:
+      # Docker network + shared dev defaults (override .env when both are set)
+      DB_HOST: db
+      DB_NAME: mimiau
+      DB_USER: root
+      DB_PASS: miaupassword
+      FRONTEND_URL: http://localhost:8000/index.html
+    depends_on:
+      db:
+        condition: service_healthy
+
+  node-api:
+    build: ./backend/node
     ports:
       - "3000:3000"
     environment:
-      - DB_HOST=db
+      DB_HOST: db
     depends_on:
       db:
         condition: service_healthy

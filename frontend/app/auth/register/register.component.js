@@ -59,7 +59,7 @@ function RegisterController(AuthService, $location) {
         return AuthService.login($ctrl.email, $ctrl.password);
       })
       .then(function () {
-        $location.path("/");
+        $location.path("/dashboard");
       })
       .catch(function (err) {
         if (err.data && err.data.error) {

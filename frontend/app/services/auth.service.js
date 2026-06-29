@@ -13,6 +13,11 @@ angular.module("mimiau.auth").factory("AuthService", [
       localStorage.setItem("mimiau_user_id", String(userId));
     }
 
+    function clearSession() {
+      localStorage.removeItem("mimiau_jwt");
+      localStorage.removeItem("mimiau_user_id");
+    }
+
     return {
       getToken: function () {
         return localStorage.getItem("mimiau_jwt");
@@ -69,6 +74,11 @@ angular.module("mimiau.auth").factory("AuthService", [
           .then(function (res) {
             return res.data;
           });
+      },
+
+      logout: function () {
+        clearSession();
+        return $http.post(getAuthUrl("/logout.php"), {});
       },
     };
   },

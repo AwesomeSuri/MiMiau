@@ -7,27 +7,58 @@ angular
     "ngMessages",
     "ngAnimate",
     "mimiau.auth",
+    "mimiau.home",
   ])
   .config([
     "$routeProvider",
     "$locationProvider",
-    "$mdThemingProvider",
-    function ($routeProvider, $locationProvider, $mdThemingProvider) {
+    function ($routeProvider, $locationProvider) {
       $locationProvider.hashPrefix("!");
 
+      var anonResolve = {
+        anon: [
+          "anonGuard",
+          function (anonGuard) {
+            return anonGuard();
+          },
+        ],
+      };
+
+      var authResolve = {
+        auth: [
+          "authGuard",
+          function (authGuard) {
+            return authGuard();
+          },
+        ],
+      };
+
       $routeProvider
-        .when("/login", { template: "<login-view></login-view>" })
-        .when("/register", { template: "<register-view></register-view>" })
+        .when("/login", {
+          template: "<login-view></login-view>",
+          resolve: anonResolve,
+        })
+        .when("/register", {
+          template: "<register-view></register-view>",
+          resolve: anonResolve,
+        })
         .when("/forgot-password", {
           template: "<forgot-password-view></forgot-password-view>",
+          resolve: anonResolve,
         })
         .when("/reset-password", {
           template: "<reset-password-view></reset-password-view>",
+          resolve: anonResolve,
+        })
+        .when("/dashboard", {
+          template: "<dashboard-view></dashboard-view>",
+          resolve: authResolve,
         })
         .when("/", {
-          template:
-            "<div class='md-padding md-title' style='text-align:center;'>MiMiau — Game coming soon.</div>",
+          redirectTo: "/login",
         })
-        .otherwise({ redirectTo: "/login" });
+        .otherwise({
+          redirectTo: "/login",
+        });
     },
   ]);

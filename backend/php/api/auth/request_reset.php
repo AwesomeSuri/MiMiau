@@ -35,8 +35,8 @@ try {
         "action" => "password_reset"
     ], 900);
 
-    $frontendApi = getenv("FRONTEND_URL");
-    $resetLink = $frontendApi . "/reset-password?token=" . $resetToken;
+    $frontendApi = rtrim(getenv("FRONTEND_URL") ?: "", "/");
+    $resetLink = $frontendApi . "#!/reset-password?token=" . urlencode($resetToken);
 
     $makeWebhookUrl = getenv("MAKE_WEBHOOK");
     $ch = curl_init($makeWebhookUrl);
