@@ -1,8 +1,10 @@
 <button
   type="button"
-  class="cursor-pointer rounded-sm border border-amber-950 bg-amber-900 shadow-md transition-all duration-200 hover:scale-110 hover:shadow-xl"
+  class="cursor-pointer border-0 bg-transparent p-0 drop-shadow-md transition-all duration-200 hover:scale-110"
   ng-style="$ctrl.getStyles()"
   ng-click="$ctrl.onClick($event)"
   ng-mousedown="$event.stopPropagation()"
   aria-label="Carton box"
-></button>
+>
+  <div ng-style="$ctrl.getVisualStyles()"></div>
+</button>
