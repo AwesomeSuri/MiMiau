@@ -4,92 +4,32 @@
 
 @layer base {
   body {
-    margin: 0;
-    font-family: Roboto, sans-serif;
+    @apply m-0 font-sans;
   }
 
   [ng-view] {
-    height: 100vh;
+    @apply h-screen;
   }
 }
 
 @layer components {
   md-input-container {
-    margin-bottom: 0;
+    @apply mb-0;
   }
 
   login-view,
   register-view,
   forgot-password-view,
   reset-password-view {
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
+    @apply flex min-h-screen items-center bg-cover bg-center bg-no-repeat p-4;
     background-image: url("assets/backgrounds/landing-background.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 16px;
 
     md-card {
-      width: 400px;
+      @apply w-full max-w-[400px];
     }
   }
 
-  dashboard-view {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .dashboard-bottom-toolbar {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
-  }
-
-  .dashboard-game-container {
-    position: relative;
-    overflow: hidden;
-    background-color: #eceff1;
-  }
-
-  .profile-overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
-  .profile-window {
-    width: min(400px, 100%);
-    height: min(480px, 100%);
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .profile-window md-card-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-  }
-
-  .profile-window-header {
-    margin-bottom: 24px;
-  }
-
-  .profile-window-body {
-    flex: 1;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-
-  @media (max-width: 640px) {
-    .profile-window {
-      width: 100%;
-      height: 100%;
-      border-radius: 0px !important;
-    }
+  home {
+    @apply flex h-screen flex-col;
   }
 }

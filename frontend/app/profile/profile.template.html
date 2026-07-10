@@ -1,19 +1,15 @@
 <div
-  class="profile-overlay"
+  class="absolute inset-0 z-10 flex items-center justify-center"
   layout="column"
   layout-align="center center"
   ng-click="$ctrl.close()"
 >
   <md-card
-    class="profile-window rounded-xl"
+    class="flex m-0 size-full flex-col rounded-none sm:size-auto sm:max-h-[480px] sm:w-full sm:max-w-[400px] sm:rounded-xl"
     ng-click="$event.stopPropagation()"
   >
-    <md-card-content layout="column">
-      <div
-        layout="row"
-        layout-align="space-between center"
-        class="profile-window-header"
-      >
+    <md-card-content class="flex flex-1 flex-col overflow-auto" layout="column">
+      <div layout="row" layout-align="space-between center" class="mb-6">
         <h2 class="md-title m-0">Profile</h2>
         <md-button
           class="md-icon-button"
@@ -24,13 +20,13 @@
         </md-button>
       </div>
 
-      <div class="profile-window-body" layout="column">
+      <div class="mb-6 flex flex-1 flex-col gap-4" layout="column">
         <p class="md-body-1 m-0">
-          <span class="md-body-2">Name</span><br />
+          <span class="md-body-2 text-gray-600">Name</span><br />
           {{ $ctrl.username }}
         </p>
         <p class="md-body-1 m-0">
-          <span class="md-body-2">Email</span><br />
+          <span class="md-body-2 text-gray-600">Email</span><br />
           {{ $ctrl.email }}
         </p>
       </div>
@@ -54,8 +50,7 @@
 
       <div
         ng-if="$ctrl.errorMessage"
-        class="md-body-1"
-        md-colors="{color: 'warn'}"
+        class="md-body-1 mt-4 text-center text-red-600"
         layout="row"
         layout-align="center center"
       >

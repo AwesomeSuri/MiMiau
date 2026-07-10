@@ -1,21 +1,26 @@
-<div layout="column" layout-fill>
+<div layout="column" layout-fill class="h-screen">
   <md-toolbar md-whiteframe="2">
     <div class="md-toolbar-tools" layout="row" layout-align="center center">
       <h1 class="md-title">MiMiau 🐾</h1>
     </div>
   </md-toolbar>
 
-  <md-content flex layout="column" layout-align="center center">
+  <md-content
+    flex
+    layout="column"
+    layout-align="center center"
+    class="relative overflow-hidden bg-slate-100"
+    ng-click="$ctrl.onBackgroundClick()"
+  >
     <profile
       ng-if="$ctrl.isProfileOpen"
       on-close="$ctrl.closeProfile()"
     ></profile>
-    <p class="md-body-1 text-gray-500">
-      Game coming soon.
-    </p>
+
+    <p class="md-body-1 text-gray-500">Game coming soon.</p>
   </md-content>
 
-  <md-toolbar md-whiteframe="3">
+  <md-toolbar md-whiteframe="3" class="border-t border-black/10">
     <div class="md-toolbar-tools" layout="row" layout-fill>
       <div flex></div>
       <div flex></div>
