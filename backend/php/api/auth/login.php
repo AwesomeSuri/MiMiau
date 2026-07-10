@@ -36,12 +36,18 @@ try {
         exit;
     }
 
-    $token = JWTHelper::generate(["userId" => $user["id"], "username" => $user["username"]]);
+    $token = JWTHelper::generate([
+        "userId" => $user["id"],
+        "username" => $user["username"],
+        "email" => $email,
+    ]);
 
     echo json_encode([
         "message" => "Welcome back to MiMiau!",
         "token" => $token,
         "userId" => $user["id"],
+        "username" => $user["username"],
+        "email" => $email,
     ]);
 } catch (\PDOException $e) {
     http_response_code(500);

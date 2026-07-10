@@ -7,7 +7,7 @@ angular.module("mimiau.auth").factory("anonGuard", [
   function (AuthService, $location, $q) {
     return function () {
       if (AuthService.getToken()) {
-        $location.path("/dashboard");
+        $location.path("/home");
         return $q.reject("Already authenticated");
       }
 

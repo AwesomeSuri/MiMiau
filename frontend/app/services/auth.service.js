@@ -8,14 +8,29 @@ angular.module("mimiau.auth").factory("AuthService", [
       return ENV.phpApiUrl + "/auth" + path;
     }
 
-    function saveSession(token, userId) {
+    function decodeTokenPayload() {
+      var token = localStorage.getItem("mimiau_jwt");
+      if (!token) {
+        return null;
+      }
+
+      try {
+        var payloadPart = token.split(".")[1];
+        var decodedPayload = atob(
+          payloadPart.replace(/-/g, "+").replace(/_/g, "/"),
+        );
+        return JSON.parse(decodedPayload);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveSession(token) {
       localStorage.setItem("mimiau_jwt", token);
-      localStorage.setItem("mimiau_user_id", String(userId));
     }
 
     function clearSession() {
       localStorage.removeItem("mimiau_jwt");
-      localStorage.removeItem("mimiau_user_id");
     }
 
     return {
@@ -23,11 +38,21 @@ angular.module("mimiau.auth").factory("AuthService", [
         return localStorage.getItem("mimiau_jwt");
       },
 
+      getUsername: function () {
+        var payload = decodeTokenPayload();
+        return (payload && payload.username) || "Cat Parent";
+      },
+
+      getEmail: function () {
+        var payload = decodeTokenPayload();
+        return (payload && payload.email) || "";
+      },
+
       login: function (email, password) {
         return $http
           .post(getAuthUrl("/login.php"), { email, password })
           .then(function (res) {
-            saveSession(res.data.token, res.data.userId);
+            saveSession(res.data.token);
             return res.data;
           });
       },

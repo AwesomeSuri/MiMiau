@@ -8,6 +8,7 @@ angular
     "ngAnimate",
     "mimiau.auth",
     "mimiau.home",
+    "mimiau.profile",
   ])
   .config([
     "$routeProvider",
@@ -34,6 +35,10 @@ angular
       };
 
       $routeProvider
+        .when("/home", {
+          template: "<home></home>",
+          resolve: authResolve,
+        })
         .when("/login", {
           template: "<login-view></login-view>",
           resolve: anonResolve,
@@ -49,10 +54,6 @@ angular
         .when("/reset-password", {
           template: "<reset-password-view></reset-password-view>",
           resolve: anonResolve,
-        })
-        .when("/dashboard", {
-          template: "<dashboard-view></dashboard-view>",
-          resolve: authResolve,
         })
         .when("/", {
           redirectTo: "/login",

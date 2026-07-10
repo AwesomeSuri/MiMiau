@@ -1,0 +1,66 @@
+<div
+  class="profile-overlay"
+  layout="column"
+  layout-align="center center"
+  ng-click="$ctrl.close()"
+>
+  <md-card
+    class="profile-window rounded-xl"
+    ng-click="$event.stopPropagation()"
+  >
+    <md-card-content layout="column">
+      <div
+        layout="row"
+        layout-align="space-between center"
+        class="profile-window-header"
+      >
+        <h2 class="md-title m-0">Profile</h2>
+        <md-button
+          class="md-icon-button"
+          ng-click="$ctrl.close()"
+          aria-label="Close profile"
+        >
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+
+      <div class="profile-window-body" layout="column">
+        <p class="md-body-1 m-0">
+          <span class="md-body-2">Name</span><br />
+          {{ $ctrl.username }}
+        </p>
+        <p class="md-body-1 m-0">
+          <span class="md-body-2">Email</span><br />
+          {{ $ctrl.email }}
+        </p>
+      </div>
+
+      <div layout="row" layout-align="end center">
+        <md-button
+          class="md-raised md-warn"
+          ng-click="$ctrl.logout()"
+          ng-disabled="$ctrl.isLoading"
+          aria-label="Logout"
+        >
+          <md-icon ng-if="!$ctrl.isLoading">exit_to_app</md-icon>
+          <md-progress-circular
+            ng-if="$ctrl.isLoading"
+            md-diameter="20"
+            md-mode="indeterminate"
+          ></md-progress-circular>
+          <span ng-if="!$ctrl.isLoading">Logout</span>
+        </md-button>
+      </div>
+
+      <div
+        ng-if="$ctrl.errorMessage"
+        class="md-body-1"
+        md-colors="{color: 'warn'}"
+        layout="row"
+        layout-align="center center"
+      >
+        {{ $ctrl.errorMessage }}
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

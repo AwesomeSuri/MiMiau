@@ -1,0 +1,35 @@
+<div layout="column" layout-fill>
+  <md-toolbar md-whiteframe="2">
+    <div class="md-toolbar-tools" layout="row" layout-align="center center">
+      <h1 class="md-title">MiMiau 🐾</h1>
+    </div>
+  </md-toolbar>
+
+  <md-content flex layout="column" layout-align="center center">
+    <profile
+      ng-if="$ctrl.isProfileOpen"
+      on-close="$ctrl.closeProfile()"
+    ></profile>
+    <p class="md-body-1 text-gray-500">
+      Game coming soon.
+    </p>
+  </md-content>
+
+  <md-toolbar md-whiteframe="3">
+    <div class="md-toolbar-tools" layout="row" layout-fill>
+      <div flex></div>
+      <div flex></div>
+      <div flex layout="row" layout-align="end center">
+        <md-button
+          class="md-raised"
+          ng-class="{ 'md-primary': $ctrl.isProfileOpen }"
+          ng-click="$ctrl.toggleProfile()"
+          aria-label="Profile"
+        >
+          <md-icon>person</md-icon>
+          Profile
+        </md-button>
+      </div>
+    </div>
+  </md-toolbar>
+</div>
