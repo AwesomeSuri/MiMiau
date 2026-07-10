@@ -11,7 +11,7 @@
         novalidate
         class="flex flex-col"
       >
-        <md-input-container class="md-block m-0">
+        <md-input-container class="mb-0">
           <label>Username</label>
           <input
             ng-model="$ctrl.username"
@@ -29,7 +29,7 @@
           </div>
         </md-input-container>
 
-        <md-input-container class="md-block">
+        <md-input-container class="mb-0">
           <label>Email</label>
           <input ng-model="$ctrl.email" type="email" name="email" required />
           <div ng-messages="$ctrl.registerForm.email.$error">
@@ -46,7 +46,7 @@
           >
             {{ $ctrl.verificationToken ? "Re-Send Code" : "Send Code" }}
           </md-button>
-          <md-input-container class="md-block flex-1">
+          <md-input-container class="mb-0 flex-1">
             <label>Verification Code</label>
             <input
               ng-model="$ctrl.verificationCode"
@@ -67,7 +67,7 @@
           {{ $ctrl.sendCodeError }}
         </div>
 
-        <md-input-container class="md-block">
+        <md-input-container class="mb-0">
           <label>Password</label>
           <input
             ng-model="$ctrl.password"
@@ -84,7 +84,7 @@
           </div>
         </md-input-container>
 
-        <md-input-container class="md-block">
+        <md-input-container class="mb-0">
           <label>Confirm Password</label>
           <input
             ng-model="$ctrl.passwordConfirm"

@@ -1,0 +1,42 @@
+<div class="flex h-full flex-col justify-between">
+  <div class="mb-6 flex flex-col gap-4">
+    <p class="md-body-1 m-0">
+      <span class="md-body-2 text-gray-600">Name</span><br />
+      {{ $ctrl.username }}
+    </p>
+    <p class="md-body-1 m-0">
+      <span class="md-body-2 text-gray-600">Email</span><br />
+      {{ $ctrl.email }}
+    </p>
+  </div>
+
+  <div class="mt-auto flex flex-grow-0 flex-wrap justify-end gap-2">
+    <md-button class="md-raised" ng-click="$ctrl.onShowChangePassword()">
+      Change Password
+    </md-button>
+    <md-button class="md-raised" ng-click="$ctrl.onShowDeleteAccount()">
+      Delete Account
+    </md-button>
+    <md-button
+      class="md-raised md-warn"
+      ng-click="$ctrl.logout()"
+      ng-disabled="$ctrl.isLoading"
+      aria-label="Logout"
+    >
+      <md-icon ng-if="!$ctrl.isLoading">exit_to_app</md-icon>
+      <md-progress-circular
+        ng-if="$ctrl.isLoading"
+        md-diameter="20"
+        md-mode="indeterminate"
+      ></md-progress-circular>
+      <span ng-if="!$ctrl.isLoading">Logout</span>
+    </md-button>
+  </div>
+
+  <div
+    ng-if="$ctrl.errorMessage"
+    class="md-body-1 mt-4 flex items-center justify-center text-center text-red-600"
+  >
+    {{ $ctrl.errorMessage }}
+  </div>
+</div>

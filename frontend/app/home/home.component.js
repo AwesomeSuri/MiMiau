@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module("mimiau.home").component("home", {
+angular.module("mimiau.home").component("homeView", {
   templateUrl: "home/home.template.html",
   controller: [HomeController],
   controllerAs: "$ctrl",

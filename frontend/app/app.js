@@ -36,7 +36,7 @@ angular
 
       $routeProvider
         .when("/home", {
-          template: "<home></home>",
+          template: "<home-view></home-view>",
           resolve: authResolve,
         })
         .when("/login", {

@@ -9,14 +9,9 @@
   novalidate
   class="flex flex-col"
 >
-  <md-input-container class="md-block">
+  <md-input-container class="mb-0">
     <label>Current Password</label>
-    <input
-      ng-model="$ctrl.password"
-      type="password"
-      name="password"
-      required
-    />
+    <input ng-model="$ctrl.password" type="password" name="password" required />
     <div ng-messages="$ctrl.deleteAccountForm.password.$error">
       <div ng-message="required">Current password is required.</div>
     </div>

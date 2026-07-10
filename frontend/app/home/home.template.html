@@ -9,12 +9,13 @@
     class="relative flex flex-1 flex-col overflow-hidden bg-slate-100 p-0"
     ng-click="$ctrl.onBackgroundClick()"
   >
-    <profile
+    <game-viewport class="flex h-full w-full flex-1 z-0"></game-viewport>
+
+    <profile-window
       ng-if="$ctrl.isProfileOpen"
       on-close="$ctrl.closeProfile()"
-    ></profile>
-
-    <game-viewport class="flex h-full w-full flex-1"></game-viewport>
+      class="z-1"
+    ></profile-window>
   </md-content>
 
   <md-toolbar md-whiteframe="3" class="border-t border-black/10">

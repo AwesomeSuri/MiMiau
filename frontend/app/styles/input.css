@@ -13,10 +13,6 @@
 }
 
 @layer components {
-  md-input-container {
-    @apply mb-0;
-  }
-
   login-view,
   register-view,
   forgot-password-view,
@@ -29,7 +25,7 @@
     }
   }
 
-  home {
+  home-view {
     @apply flex h-screen flex-col;
   }
 }
