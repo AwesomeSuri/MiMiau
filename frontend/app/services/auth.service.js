@@ -117,6 +117,23 @@ angular.module("mimiau.auth").factory("AuthService", [
           });
       },
 
+      deleteAccount: function (password) {
+        return $http
+          .post(
+            getAuthUrl("/delete_account.php"),
+            { password: password },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("mimiau_jwt"),
+              },
+            },
+          )
+          .then(function (res) {
+            clearSession();
+            return res.data;
+          });
+      },
+
       logout: function () {
         clearSession();
         return $http.post(getAuthUrl("/logout.php"), {});

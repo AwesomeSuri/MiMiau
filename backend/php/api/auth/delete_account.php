@@ -43,7 +43,7 @@ $dsn = "mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";ch
 try {
     $pdo = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'), [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id, email, password FROM users WHERE id = ?");
     $stmt->execute([$userId]);
     $user = $stmt->fetch();
 
@@ -56,6 +56,30 @@ try {
     if (!password_verify($passwordConfirm, $user['password'])) {
         http_response_code(400);
         echo json_encode(["error" => "Incorrect password. Account deletion aborted."]);
+        exit;
+    }
+
+    $makeWebhookUrl = getenv("MAKE_WEBHOOK");
+    if (!$makeWebhookUrl) {
+        http_response_code(500);
+        echo json_encode(["error" => "Cannot connect to External Mail Service."]);
+        exit;
+    }
+
+    $ch = curl_init($makeWebhookUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+        "email" => $user["email"],
+        "code" => "",
+    ]));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
+
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+        http_response_code(502);
+        echo json_encode(["error" => "Failed to reach the email gateway."]);
         exit;
     }
 

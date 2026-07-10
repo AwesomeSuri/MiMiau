@@ -26,6 +26,20 @@ function ProfileController(AuthService, $location) {
     $ctrl.view = "change-password";
   };
 
+  $ctrl.showDeleteAccount = function () {
+    $ctrl.view = "delete-account";
+  };
+
+  $ctrl.getTitle = function () {
+    if ($ctrl.view === "change-password") {
+      return "Change Password";
+    }
+    if ($ctrl.view === "delete-account") {
+      return "Delete Account";
+    }
+    return "Profile";
+  };
+
   $ctrl.close = function () {
     $ctrl.showOverview();
     $ctrl.onClose();

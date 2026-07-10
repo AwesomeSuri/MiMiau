@@ -1,0 +1,46 @@
+<p class="md-body-1 mb-6 text-red-600">
+  Warning: deleting your account cannot be undone. All of your data will be
+  permanently removed.
+</p>
+
+<form
+  name="$ctrl.deleteAccountForm"
+  ng-submit="$ctrl.deleteAccount()"
+  novalidate
+  class="flex flex-col"
+>
+  <md-input-container class="md-block">
+    <label>Current Password</label>
+    <input
+      ng-model="$ctrl.password"
+      type="password"
+      name="password"
+      required
+    />
+    <div ng-messages="$ctrl.deleteAccountForm.password.$error">
+      <div ng-message="required">Current password is required.</div>
+    </div>
+  </md-input-container>
+
+  <div class="flex items-center justify-end">
+    <md-button
+      type="submit"
+      class="md-raised md-warn"
+      ng-disabled="$ctrl.isLoading || $ctrl.deleteAccountForm.$invalid"
+    >
+      <span ng-if="!$ctrl.isLoading">Confirm</span>
+      <md-progress-circular
+        ng-if="$ctrl.isLoading"
+        md-diameter="20"
+        md-mode="indeterminate"
+      ></md-progress-circular>
+    </md-button>
+  </div>
+</form>
+
+<div
+  ng-if="$ctrl.errorMessage"
+  class="md-body-1 mt-4 flex items-center justify-center text-center text-red-600"
+>
+  {{ $ctrl.errorMessage }}
+</div>
