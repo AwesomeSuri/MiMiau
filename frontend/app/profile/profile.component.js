@@ -12,12 +12,22 @@ angular.module("mimiau.profile").component("profile", {
 function ProfileController(AuthService, $location) {
   var $ctrl = this;
 
+  $ctrl.view = "overview";
   $ctrl.username = AuthService.getUsername();
   $ctrl.email = AuthService.getEmail();
   $ctrl.isLoading = false;
   $ctrl.errorMessage = "";
 
+  $ctrl.showOverview = function () {
+    $ctrl.view = "overview";
+  };
+
+  $ctrl.showChangePassword = function () {
+    $ctrl.view = "change-password";
+  };
+
   $ctrl.close = function () {
+    $ctrl.showOverview();
     $ctrl.onClose();
   };
 

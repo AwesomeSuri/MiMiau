@@ -101,6 +101,22 @@ angular.module("mimiau.auth").factory("AuthService", [
           });
       },
 
+      changePassword: function (currentPassword, newPassword) {
+        return $http
+          .post(
+            getAuthUrl("/change_password.php"),
+            { currentPassword, newPassword },
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("mimiau_jwt"),
+              },
+            },
+          )
+          .then(function (res) {
+            return res.data;
+          });
+      },
+
       logout: function () {
         clearSession();
         return $http.post(getAuthUrl("/logout.php"), {});

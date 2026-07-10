@@ -1,7 +1,7 @@
-<div layout="column" layout-fill layout-align="center center">
+<div class="flex w-full flex-1 flex-col items-center justify-center">
   <md-card class="rounded-xl">
     <md-card-content>
-      <h2 class="md-title mb-8" layout="row" layout-align="center center">
+      <h2 class="md-title mb-8 flex items-center justify-center">
         Welcome back to MiMiau 🐾
       </h2>
 
@@ -9,7 +9,7 @@
         name="$ctrl.loginForm"
         ng-submit="$ctrl.login()"
         novalidate
-        layout="column"
+        class="flex flex-col"
       >
         <md-input-container class="md-block">
           <label>Email Address</label>
@@ -35,9 +35,7 @@
 
         <a
           href="#!/forgot-password"
-          class="md-caption mb-4"
-          layout="row"
-          layout-align="end center"
+          class="md-caption mb-4 flex items-center justify-end"
           >Forgot Password?</a
         >
 
@@ -58,15 +56,13 @@
 
       <div
         ng-if="$ctrl.errorMessage"
-        class="md-body-1"
+        class="md-body-1 flex items-center justify-center"
         md-colors="{color: 'warn'}"
-        layout="row"
-        layout-align="center center"
       >
         {{ $ctrl.errorMessage }}
       </div>
 
-      <p class="md-caption" layout="row" layout-align="center center">
+      <p class="md-caption flex items-center justify-center">
         New to MiMiau? <a href="#!/register">Create a new account</a>
       </p>
     </md-card-content>
