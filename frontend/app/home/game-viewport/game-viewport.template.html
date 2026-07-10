@@ -1,0 +1,53 @@
+<div
+  class="flex h-full min-h-0 w-full flex-1"
+  ng-click="$event.stopPropagation()"
+>
+  <div
+    game-viewport
+    class="relative min-h-0 w-full flex-1 select-none overflow-hidden bg-slate-300"
+    ng-class="$ctrl.isDragging ? 'cursor-grabbing' : 'cursor-grab'"
+    ng-mousedown="$ctrl.onMouseDown($event)"
+  >
+    <div
+      class="absolute left-0 top-0 origin-top-left will-change-transform"
+      ng-style="$ctrl.getTransformStyle()"
+    >
+      <div
+        class="relative flex items-start justify-start border-4 border-amber-800 bg-amber-100 shadow-inner"
+        ng-style="{ width: $ctrl.roomWidth + 'px', height: $ctrl.roomHeight + 'px' }"
+      >
+        <span
+          class="m-3 rounded bg-amber-800/90 px-3 py-1 text-sm font-medium text-white"
+          >Room</span
+        >
+      </div>
+    </div>
+
+    <div class="absolute right-3 top-3 z-20 flex flex-col items-end gap-2">
+      <div
+        class="relative overflow-hidden rounded border-2 border-slate-700 bg-slate-500/80 shadow-md"
+        ng-style="{
+          width: $ctrl.minimapWidth + 'px',
+          height: $ctrl.minimapHeight + 'px'
+        }"
+      >
+        <div
+          class="absolute inset-1 rounded-sm border border-amber-700/70 bg-amber-200/80"
+        ></div>
+        <div
+          class="absolute box-border rounded-sm border-2 border-sky-400 bg-sky-300/30"
+          ng-style="$ctrl.getMinimapViewportStyle()"
+        ></div>
+      </div>
+
+      <md-button
+        class="md-raised !m-0 !min-h-0 !min-w-0 !px-3 !py-1 !text-xs"
+        ng-click="$ctrl.resetView()"
+        ng-if="!$ctrl.isFitView()"
+        aria-label="Reset view"
+      >
+        Reset View
+      </md-button>
+    </div>
+  </div>
+</div>

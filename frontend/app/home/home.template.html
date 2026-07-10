@@ -6,7 +6,7 @@
   </md-toolbar>
 
   <md-content
-    class="relative flex flex-1 flex-col items-center justify-center overflow-hidden bg-slate-100"
+    class="relative flex flex-1 flex-col overflow-hidden bg-slate-100 p-0"
     ng-click="$ctrl.onBackgroundClick()"
   >
     <profile
@@ -14,7 +14,7 @@
       on-close="$ctrl.closeProfile()"
     ></profile>
 
-    <p class="md-body-1 text-gray-500">Game coming soon.</p>
+    <game-viewport class="flex h-full w-full flex-1"></game-viewport>
   </md-content>
 
   <md-toolbar md-whiteframe="3" class="border-t border-black/10">
