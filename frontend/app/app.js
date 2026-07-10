@@ -9,6 +9,7 @@ angular
     "mimiau.auth",
     "mimiau.home",
     "mimiau.profile",
+    "mimiau.room",
   ])
   .config([
     "$routeProvider",

@@ -1,0 +1,12 @@
+<div class="grid bg-amber-100 shadow-inner" ng-style="$ctrl.getGridStyle()">
+  <div
+    ng-repeat="cell in $ctrl.cells track by (cell.x + '-' + cell.y)"
+    class="box-border border border-solid border-amber-300/60 flex justify-center items-center"
+  >
+    <div class="w-0 h-0"></div>
+  </div>
+
+  <div class="absolute w-full h-full flex justify-center items-center">
+    <carton-box class="translate-y-1/2"></carton-box>
+  </div>
+</div>

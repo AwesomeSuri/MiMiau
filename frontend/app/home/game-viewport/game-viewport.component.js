@@ -7,16 +7,17 @@ angular.module("mimiau.home").component("gameViewport", {
     "$window",
     "$scope",
     "$timeout",
+    "RoomGrid",
     GameViewportController,
   ],
   controllerAs: "$ctrl",
 });
 
-function GameViewportController($element, $window, $scope, $timeout) {
+function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
   var $ctrl = this;
 
-  var ROOM_WIDTH = 1200;
-  var ROOM_HEIGHT = 800;
+  var ROOM_WIDTH = RoomGrid.COLUMNS * RoomGrid.CELL_SIZE;
+  var ROOM_HEIGHT = RoomGrid.ROWS * RoomGrid.CELL_SIZE;
   var MIN_SCALE = 0.2;
   var MAX_SCALE = 3;
   var MINIMAP_WIDTH = 128;
@@ -189,10 +190,8 @@ function GameViewportController($element, $window, $scope, $timeout) {
     var clampedCenterX = clamp(centerRoomX, 0, ROOM_WIDTH);
     var clampedCenterY = clamp(centerRoomY, 0, ROOM_HEIGHT);
 
-    $ctrl.translateX =
-      $ctrl.viewportWidth / 2 - clampedCenterX * $ctrl.scale;
-    $ctrl.translateY =
-      $ctrl.viewportHeight / 2 - clampedCenterY * $ctrl.scale;
+    $ctrl.translateX = $ctrl.viewportWidth / 2 - clampedCenterX * $ctrl.scale;
+    $ctrl.translateY = $ctrl.viewportHeight / 2 - clampedCenterY * $ctrl.scale;
   }
 
   function applyFitView() {
