@@ -1,4 +1,4 @@
-<div class="flex h-screen flex-col">
+<div class="relative flex h-screen flex-col">
   <md-toolbar md-whiteframe="2">
     <div class="md-toolbar-tools flex items-center justify-center">
       <h1 class="md-title">MiMiau 🐾</h1>
@@ -35,4 +35,9 @@
       </div>
     </div>
   </md-toolbar>
+
+  <gacha-feature
+    ng-if="$ctrl.gachaService.isOpen"
+    class="absolute left-0 top-0 right-0 bottom-0 z-50"
+  ></gacha-feature>
 </div>

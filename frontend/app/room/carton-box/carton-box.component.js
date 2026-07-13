@@ -4,6 +4,7 @@ angular.module("mimiau.room").component("cartonBox", {
   templateUrl: "room/carton-box/carton-box.template.html",
   controller: [
     "$timeout",
+    "GachaService",
     "RoomGrid",
     "CartonBoxSprite",
     CartonBoxController,
@@ -11,7 +12,7 @@ angular.module("mimiau.room").component("cartonBox", {
   controllerAs: "$ctrl",
 });
 
-function CartonBoxController($timeout, RoomGrid, CartonBoxSprite) {
+function CartonBoxController($timeout, GachaService, RoomGrid, CartonBoxSprite) {
   var $ctrl = this;
 
   var frameIndex = 0;
@@ -78,5 +79,6 @@ function CartonBoxController($timeout, RoomGrid, CartonBoxSprite) {
 
   $ctrl.onClick = function ($event) {
     $event.stopPropagation();
+    GachaService.open();
   };
 }

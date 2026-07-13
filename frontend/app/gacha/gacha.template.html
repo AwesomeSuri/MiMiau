@@ -1,0 +1,87 @@
+<div
+  class="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle,yellow_0%,theme(colors.blue.200)_70%)] opacity-0 transition-opacity duration-500 ease-out"
+  ng-class="{ 'opacity-100': $ctrl.isBackdropVisible }"
+>
+  <div class="relative flex flex-col items-center">
+    <md-progress-circular
+      ng-if="!$ctrl.isLoading"
+      class="mb-4 opacity-0"
+      md-diameter="48"
+    ></md-progress-circular>
+    <md-progress-circular
+      ng-if="$ctrl.isLoading"
+      class="mb-4"
+      md-diameter="48"
+      md-mode="indeterminate"
+    ></md-progress-circular>
+    <div ng-style="$ctrl.getBoxStyles()"></div>
+    <p ng-if="$ctrl.error" class="md-body-1 m-0 mt-4 text-center text-red-600">
+      {{ $ctrl.error }}
+    </p>
+  </div>
+
+  <div
+    ng-if="$ctrl.newCat && !$ctrl.isLoading"
+    class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 p-4"
+  >
+    <p
+      ng-if="$ctrl.getResultBanner()"
+      class="md-headline m-0 mb-4 text-center font-bold tracking-wide text-yellow-300 opacity-0 transition-all duration-300 ease-out"
+      ng-class="{
+        'scale-100 opacity-100': $ctrl.isResultCardVisible,
+        'scale-90 opacity-0': !$ctrl.isResultCardVisible,
+      }"
+    >
+      {{ $ctrl.getResultBanner() }}
+    </p>
+
+    <md-card
+      class="m-0 w-full max-w-lg scale-90 opacity-0 transition-all duration-300 ease-out"
+      ng-class="{ 'scale-100 opacity-100': $ctrl.isResultCardVisible }"
+      ng-click="$event.stopPropagation()"
+    >
+      <md-card-content class="p-0">
+        <div class="border-b border-black/10 px-4 py-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="md-title m-0">{{ $ctrl.newCat.name }}</h2>
+            <div class="flex items-center gap-0.5">
+              <md-icon
+                ng-repeat="filled in $ctrl.getLevelStars() track by $index"
+                class="!h-5 !w-5 text-base text-yellow-500"
+              >
+                {{ filled ? "star" : "star_border" }}
+              </md-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 p-4 sm:flex-row sm:items-start">
+          <img
+            ng-src="{{ $ctrl.newCat.image }}"
+            alt="{{ $ctrl.newCat.name }}"
+            class="mx-auto h-32 w-32 shrink-0 object-contain sm:mx-0"
+          />
+          <ul class="m-0 flex-1 list-none space-y-2 p-0">
+            <li
+              ng-repeat="fact in $ctrl.newCat.facts track by $index"
+              class="md-body-1 m-0"
+              ng-class="{
+                'text-gray-400': $index >= $ctrl.newCat.level,
+              }"
+            >
+              {{ $ctrl.getFactText($index) }}
+            </li>
+          </ul>
+        </div>
+      </md-card-content>
+    </md-card>
+
+    <md-button
+      class="md-raised md-primary mt-4 scale-90 opacity-0 transition-all duration-300 ease-out"
+      ng-class="{ 'scale-100 opacity-100': $ctrl.isResultCardVisible }"
+      ng-click="$ctrl.close()"
+    >
+      Close
+    </md-button>
+  </div>
+</div>

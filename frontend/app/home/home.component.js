@@ -2,13 +2,14 @@
 
 angular.module("mimiau.home").component("homeView", {
   templateUrl: "home/home.template.html",
-  controller: [HomeController],
+  controller: ["GachaService", HomeController],
   controllerAs: "$ctrl",
 });
 
-function HomeController() {
+function HomeController(GachaService) {
   var $ctrl = this;
 
+  $ctrl.gachaService = GachaService;
   $ctrl.isProfileOpen = false;
 
   $ctrl.toggleProfile = function () {

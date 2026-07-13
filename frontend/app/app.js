@@ -10,6 +10,7 @@ angular
     "mimiau.home",
     "mimiau.profile",
     "mimiau.room",
+    "mimiau.gacha",
   ])
   .config([
     "$routeProvider",

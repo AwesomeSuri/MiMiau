@@ -1,3 +1,3 @@
 "use strict";
 
-angular.module("mimiau.home", ["mimiau.profile", "mimiau.room"]);
+angular.module("mimiau.home", ["mimiau.profile", "mimiau.room", "mimiau.gacha"]);
