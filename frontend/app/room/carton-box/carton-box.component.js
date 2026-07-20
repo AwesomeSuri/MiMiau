@@ -79,6 +79,6 @@ function CartonBoxController($timeout, GachaService, RoomGrid, CartonBoxSprite) 
 
   $ctrl.onClick = function ($event) {
     $event.stopPropagation();
-    GachaService.open();
+    GachaService.open().catch(angular.noop);
   };
 }

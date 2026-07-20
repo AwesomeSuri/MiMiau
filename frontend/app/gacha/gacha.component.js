@@ -7,6 +7,7 @@ angular.module("mimiau.gacha").component("gachaFeature", {
     "GachaAnimation",
     "GachaApiService",
     "GachaService",
+    "GameStateService",
     GachaController,
   ],
   controllerAs: "$ctrl",
@@ -17,6 +18,7 @@ function GachaController(
   GachaAnimation,
   GachaApiService,
   GachaService,
+  GameStateService,
 ) {
   var $ctrl = this;
 
@@ -93,6 +95,10 @@ function GachaController(
     GachaApiService.pullRandomCat()
       .then(function (cat) {
         $ctrl.newCat = cat;
+        GameStateService.applyProgress({
+          level: cat.userLevel,
+          gachaQueue: cat.gachaQueue,
+        });
         playFinalFrame();
         $timeout(function () {
           $ctrl.isResultCardVisible = true;

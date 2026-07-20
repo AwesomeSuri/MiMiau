@@ -6,7 +6,10 @@
     <div class="w-0 h-0"></div>
   </div>
 
-  <div class="absolute w-full h-full flex justify-center items-center">
+  <div
+    ng-if="$ctrl.gameStateService.gachaQueue > 0"
+    class="absolute flex h-full w-full items-center justify-center"
+  >
     <carton-box></carton-box>
   </div>
 </div>

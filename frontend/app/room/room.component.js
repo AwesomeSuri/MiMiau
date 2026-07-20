@@ -2,12 +2,14 @@
 
 angular.module("mimiau.room").component("room", {
   templateUrl: "room/room.template.html",
-  controller: ["RoomGrid", RoomController],
+  controller: ["GameStateService", "RoomGrid", RoomController],
   controllerAs: "$ctrl",
 });
 
-function RoomController(RoomGrid) {
+function RoomController(GameStateService, RoomGrid) {
   var $ctrl = this;
+
+  $ctrl.gameStateService = GameStateService;
 
   $ctrl.cellSize = RoomGrid.CELL_SIZE;
   $ctrl.columns = RoomGrid.COLUMNS;

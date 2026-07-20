@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 }
 
 require_once __DIR__ . "/../env_loader.php";
+require_once __DIR__ . "/auth_helper.php";
 
 function parseCatFacts(?string $factsJson): array
 {
@@ -25,48 +26,46 @@ function parseCatFacts(?string $factsJson): array
     return $decoded;
 }
 
-$headers = getallheaders();
-$authHeader = $headers["Authorization"] ?? $headers["authorization"] ?? null;
-
-if (!$authHeader || !preg_match("/Bearer\s(\S+)/", $authHeader, $matches)) {
-    http_response_code(401);
-    echo json_encode(["error" => "Unauthorized access request context."]);
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    echo json_encode(["error" => "Method not allowed."]);
     exit;
 }
 
-$token = $matches[1];
-$parts = explode(".", $token);
-$payload = json_decode(
-    base64_decode(str_replace(["-", "_"], ["+", "/"], $parts[1])),
-    true
-);
+$userId = requireAuthenticatedUserId();
 
-if (!$payload || time() > ($payload["exp"] ?? 0)) {
-    http_response_code(401);
-    echo json_encode(["error" => "Session expired. Please log in again."]);
-    exit;
-}
-
-$userId = $payload["userId"] ?? null;
-
-if (!$userId) {
-    http_response_code(401);
-    echo json_encode(["error" => "Invalid session payload."]);
-    exit;
-}
-
-$dsn =
-    "mysql:host=" .
-    getenv("DB_HOST") .
-    ";dbname=" .
-    getenv("DB_NAME") .
-    ";charset=utf8mb4";
+$pdo = null;
 
 try {
-    $pdo = new PDO($dsn, getenv("DB_USER"), getenv("DB_PASS"), [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
+    $pdo = getPdo();
+    $pdo->beginTransaction();
+
+    $userStmt = $pdo->prepare(
+        "SELECT level, gacha_queue FROM users WHERE id = ? FOR UPDATE"
+    );
+    $userStmt->execute([$userId]);
+    $user = $userStmt->fetch();
+
+    if (!$user) {
+        $pdo->rollBack();
+        http_response_code(404);
+        echo json_encode(["error" => "User not found."]);
+        exit;
+    }
+
+    $gachaQueue = (int) $user["gacha_queue"];
+
+    if ($gachaQueue <= 0) {
+        $pdo->rollBack();
+        http_response_code(409);
+        echo json_encode(["error" => "No gacha pulls available."]);
+        exit;
+    }
+
+    $decrementStmt = $pdo->prepare(
+        "UPDATE users SET gacha_queue = gacha_queue - 1 WHERE id = ?"
+    );
+    $decrementStmt->execute([$userId]);
 
     $catalogStmt = $pdo->query(
         "SELECT id, name, image, sprite_sheet, facts FROM cats_catalog ORDER BY RAND() LIMIT 1"
@@ -74,6 +73,7 @@ try {
     $cat = $catalogStmt->fetch();
 
     if (!$cat) {
+        $pdo->rollBack();
         http_response_code(404);
         echo json_encode(["error" => "No cats available in the catalog."]);
         exit;
@@ -115,6 +115,10 @@ try {
         }
     }
 
+    $pdo->commit();
+
+    $progress = fetchUserProgress($pdo, $userId);
+
     echo json_encode([
         "resultCode" => $resultCode,
         "level" => $level,
@@ -125,8 +129,14 @@ try {
         "image" => $cat["image"],
         "spriteSheet" => $cat["sprite_sheet"],
         "facts" => $facts,
+        "gachaQueue" => $progress["gachaQueue"],
+        "userLevel" => $progress["level"],
     ]);
 } catch (\PDOException $e) {
+    if ($pdo && $pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+
     http_response_code(500);
     echo json_encode([
         "error" => "Database connection failure",
