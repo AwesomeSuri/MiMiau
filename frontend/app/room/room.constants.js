@@ -16,3 +16,11 @@ angular.module("mimiau.room").constant("CartonBoxSprite", {
     { col: 2, row: 0, duration: 200 },
   ],
 });
+
+angular.module("mimiau.room").constant("CatSprite", {
+  SHEET_COLUMNS: 7,
+  SHEET_ROWS: 1,
+  WALK_FRAME_COUNT: 6,
+  IDLE_FRAME_INDEX: 6,
+  WALK_FRAME_DURATION_MS: 120,
+});

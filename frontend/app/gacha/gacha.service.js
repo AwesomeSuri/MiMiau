@@ -2,8 +2,9 @@
 
 angular.module("mimiau.gacha").service("GachaService", [
   "$q",
+  "$rootScope",
   "GameStateService",
-  function ($q, GameStateService) {
+  function ($q, $rootScope, GameStateService) {
     var self = this;
 
     self.isOpen = false;
@@ -25,6 +26,7 @@ angular.module("mimiau.gacha").service("GachaService", [
 
     self.close = function () {
       self.isOpen = false;
+      $rootScope.$broadcast("gacha:closed");
     };
   },
 ]);
