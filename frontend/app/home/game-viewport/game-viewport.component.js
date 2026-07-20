@@ -22,7 +22,7 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
   var MAX_SCALE = 3;
   var MINIMAP_WIDTH = 128;
   var MINIMAP_HEIGHT = 88;
-  var ZOOM_SPEED = 0.02;
+  var ZOOM_SPEED = 0.05;
 
   var viewportEl = null;
   var removeWheelListener = angular.noop;
@@ -38,9 +38,9 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
   $ctrl.scale = 1;
   $ctrl.translateX = 0;
   $ctrl.translateY = 0;
-  $ctrl.fitScale = 1;
-  $ctrl.fitTranslateX = 0;
-  $ctrl.fitTranslateY = 0;
+  $ctrl.resetScale = MAX_SCALE;
+  $ctrl.resetTranslateX = 0;
+  $ctrl.resetTranslateY = 0;
   $ctrl.viewportWidth = 0;
   $ctrl.viewportHeight = 0;
 
@@ -194,33 +194,31 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
     $ctrl.translateY = $ctrl.viewportHeight / 2 - clampedCenterY * $ctrl.scale;
   }
 
-  function applyFitView() {
+  function applyResetView() {
     if (!$ctrl.viewportWidth || !$ctrl.viewportHeight) {
       return;
     }
 
-    var scaleX = $ctrl.viewportWidth / ROOM_WIDTH;
-    var scaleY = $ctrl.viewportHeight / ROOM_HEIGHT;
-    var scale = Math.min(scaleX, scaleY);
+    $ctrl.scale = MAX_SCALE;
+    $ctrl.translateX = ($ctrl.viewportWidth - ROOM_WIDTH * MAX_SCALE) / 2;
+    $ctrl.translateY = ($ctrl.viewportHeight - ROOM_HEIGHT * MAX_SCALE) / 2;
+    constrainPan();
 
-    $ctrl.scale = scale;
-    $ctrl.translateX = ($ctrl.viewportWidth - ROOM_WIDTH * scale) / 2;
-    $ctrl.translateY = ($ctrl.viewportHeight - ROOM_HEIGHT * scale) / 2;
-    $ctrl.fitScale = scale;
-    $ctrl.fitTranslateX = $ctrl.translateX;
-    $ctrl.fitTranslateY = $ctrl.translateY;
+    $ctrl.resetScale = MAX_SCALE;
+    $ctrl.resetTranslateX = $ctrl.translateX;
+    $ctrl.resetTranslateY = $ctrl.translateY;
   }
 
   $ctrl.resetView = function () {
     measureViewport();
-    applyFitView();
+    applyResetView();
   };
 
   $ctrl.isFitView = function () {
     return (
-      Math.abs($ctrl.scale - $ctrl.fitScale) < 0.001 &&
-      Math.abs($ctrl.translateX - $ctrl.fitTranslateX) < 1 &&
-      Math.abs($ctrl.translateY - $ctrl.fitTranslateY) < 1
+      Math.abs($ctrl.scale - $ctrl.resetScale) < 0.001 &&
+      Math.abs($ctrl.translateX - $ctrl.resetTranslateX) < 1 &&
+      Math.abs($ctrl.translateY - $ctrl.resetTranslateY) < 1
     );
   };
 
