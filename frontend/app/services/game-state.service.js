@@ -8,6 +8,8 @@ angular.module("mimiau.gacha").service("GameStateService", [
 
     self.level = 1;
     self.gachaQueue = 0;
+    self.roomWidth = 7;
+    self.roomLength = 5;
 
     function getAuthHeaders() {
       return {
@@ -16,8 +18,18 @@ angular.module("mimiau.gacha").service("GameStateService", [
     }
 
     function applyProgress(progress) {
-      self.level = progress.level;
-      self.gachaQueue = progress.gachaQueue;
+      if (progress.level != null) {
+        self.level = progress.level;
+      }
+      if (progress.gachaQueue != null) {
+        self.gachaQueue = progress.gachaQueue;
+      }
+      if (progress.roomWidth != null) {
+        self.roomWidth = progress.roomWidth;
+      }
+      if (progress.roomLength != null) {
+        self.roomLength = progress.roomLength;
+      }
       return progress;
     }
 

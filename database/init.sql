@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(255) NOT NULL UNIQUE,
     current_session_id VARCHAR(255) NULL,
     level INT NOT NULL DEFAULT 1,
-    gacha_queue INT NOT NULL DEFAULT 1
+    gacha_queue INT NOT NULL DEFAULT 1,
+    room_width INT NOT NULL DEFAULT 7,
+    room_length INT NOT NULL DEFAULT 5
 );
 CREATE TABLE IF NOT EXISTS cats_catalog (
     id INT AUTO_INCREMENT PRIMARY KEY,

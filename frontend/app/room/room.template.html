@@ -3,13 +3,15 @@
     ng-repeat="cell in $ctrl.cells track by (cell.x + '-' + cell.y)"
     class="box-border border border-solid border-amber-300/60 flex justify-center items-center"
   >
-    <div class="w-0 h-0"></div>
+    <room-item item="cell.item" cell-size="$ctrl.cellSize"></room-item>
   </div>
+
+  <cats
+    class="absolute flex h-full w-full pointer-events-none top-0 left-0"
+  ></cats>
 
   <carton-box
     ng-if="$ctrl.gameStateService.gachaQueue > 0"
-    class="absolute flex h-full w-full items-center justify-center"
+    class="absolute flex h-full w-full items-center justify-center top-0 left-0"
   ></carton-box>
-
-  <cats class="absolute flex h-full w-full pointer-events-none"></cats>
 </div>

@@ -7,22 +7,36 @@ angular.module("mimiau.home").component("gameViewport", {
     "$window",
     "$scope",
     "$timeout",
+    "GameStateService",
     "RoomGrid",
     GameViewportController,
   ],
   controllerAs: "$ctrl",
 });
 
-function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
+function GameViewportController(
+  $element,
+  $window,
+  $scope,
+  $timeout,
+  GameStateService,
+  RoomGrid,
+) {
   var $ctrl = this;
 
-  var ROOM_WIDTH = RoomGrid.COLUMNS * RoomGrid.CELL_SIZE;
-  var ROOM_HEIGHT = RoomGrid.ROWS * RoomGrid.CELL_SIZE;
   var MIN_SCALE = 0.2;
   var MAX_SCALE = 3;
   var MINIMAP_WIDTH = 128;
   var MINIMAP_HEIGHT = 88;
   var ZOOM_SPEED = 0.05;
+
+  function getRoomWidthPx() {
+    return GameStateService.roomWidth * RoomGrid.CELL_SIZE;
+  }
+
+  function getRoomHeightPx() {
+    return GameStateService.roomLength * RoomGrid.CELL_SIZE;
+  }
 
   var viewportEl = null;
   var removeWheelListener = angular.noop;
@@ -30,8 +44,8 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
   var removeTouchMoveListener = angular.noop;
   var removeTouchEndListener = angular.noop;
 
-  $ctrl.roomWidth = ROOM_WIDTH;
-  $ctrl.roomHeight = ROOM_HEIGHT;
+  $ctrl.roomWidth = getRoomWidthPx();
+  $ctrl.roomHeight = getRoomHeightPx();
   $ctrl.minimapWidth = MINIMAP_WIDTH;
   $ctrl.minimapHeight = MINIMAP_HEIGHT;
 
@@ -59,8 +73,13 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
   $ctrl.$onInit = function () {
     viewportEl = $element[0].querySelector("[game-viewport]");
     measureViewport();
-    $ctrl.resetView();
     bindViewportEvents();
+
+    GameStateService.load().then(function () {
+      $ctrl.roomWidth = getRoomWidthPx();
+      $ctrl.roomHeight = getRoomHeightPx();
+      $ctrl.resetView();
+    });
 
     angular.element($window).on("resize", onResize);
     angular.element($window).on("mousemove", onMouseMove);
@@ -187,8 +206,8 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
     var centerRoomY =
       ($ctrl.viewportHeight / 2 - $ctrl.translateY) / $ctrl.scale;
 
-    var clampedCenterX = clamp(centerRoomX, 0, ROOM_WIDTH);
-    var clampedCenterY = clamp(centerRoomY, 0, ROOM_HEIGHT);
+    var clampedCenterX = clamp(centerRoomX, 0, getRoomWidthPx());
+    var clampedCenterY = clamp(centerRoomY, 0, getRoomHeightPx());
 
     $ctrl.translateX = $ctrl.viewportWidth / 2 - clampedCenterX * $ctrl.scale;
     $ctrl.translateY = $ctrl.viewportHeight / 2 - clampedCenterY * $ctrl.scale;
@@ -200,8 +219,8 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
     }
 
     $ctrl.scale = MAX_SCALE;
-    $ctrl.translateX = ($ctrl.viewportWidth - ROOM_WIDTH * MAX_SCALE) / 2;
-    $ctrl.translateY = ($ctrl.viewportHeight - ROOM_HEIGHT * MAX_SCALE) / 2;
+    $ctrl.translateX = ($ctrl.viewportWidth - getRoomWidthPx() * MAX_SCALE) / 2;
+    $ctrl.translateY = ($ctrl.viewportHeight - getRoomHeightPx() * MAX_SCALE) / 2;
     constrainPan();
 
     $ctrl.resetScale = MAX_SCALE;
@@ -240,10 +259,10 @@ function GameViewportController($element, $window, $scope, $timeout, RoomGrid) {
       return { display: "none" };
     }
 
-    var left = (-$ctrl.translateX / $ctrl.scale / ROOM_WIDTH) * 100;
-    var top = (-$ctrl.translateY / $ctrl.scale / ROOM_HEIGHT) * 100;
-    var width = ($ctrl.viewportWidth / $ctrl.scale / ROOM_WIDTH) * 100;
-    var height = ($ctrl.viewportHeight / $ctrl.scale / ROOM_HEIGHT) * 100;
+    var left = (-$ctrl.translateX / $ctrl.scale / getRoomWidthPx()) * 100;
+    var top = (-$ctrl.translateY / $ctrl.scale / getRoomHeightPx()) * 100;
+    var width = ($ctrl.viewportWidth / $ctrl.scale / getRoomWidthPx()) * 100;
+    var height = ($ctrl.viewportHeight / $ctrl.scale / getRoomHeightPx()) * 100;
 
     return {
       left: clamp(left, 0, 100) + "%",

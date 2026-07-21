@@ -2,7 +2,7 @@
 
 angular.module("mimiau.room").constant("RoomGrid", {
   CELL_SIZE: 32,
-  COLUMNS: 10,
+  COLUMNS: 7,
   ROWS: 5,
 });
 

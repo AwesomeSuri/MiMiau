@@ -6,13 +6,14 @@ angular.module("mimiau.room").component("cats", {
     "$scope",
     "$timeout",
     "CatsApiService",
+    "GameStateService",
     "RoomGrid",
     CatsController,
   ],
   controllerAs: "$ctrl",
 });
 
-function CatsController($scope, $timeout, CatsApiService, RoomGrid) {
+function CatsController($scope, $timeout, CatsApiService, GameStateService, RoomGrid) {
   var $ctrl = this;
 
   var IDLE_MIN_MS = 2000;
@@ -22,11 +23,19 @@ function CatsController($scope, $timeout, CatsApiService, RoomGrid) {
 
   $ctrl.cats = [];
   $ctrl.catSize = RoomGrid.CELL_SIZE;
-  $ctrl.roomWidth = RoomGrid.COLUMNS * RoomGrid.CELL_SIZE;
-  $ctrl.roomHeight = RoomGrid.ROWS * RoomGrid.CELL_SIZE;
+
+  function getRoomWidthPx() {
+    return GameStateService.roomWidth * RoomGrid.CELL_SIZE;
+  }
+
+  function getRoomHeightPx() {
+    return GameStateService.roomLength * RoomGrid.CELL_SIZE;
+  }
 
   $ctrl.$onInit = function () {
-    $ctrl.loadCats();
+    GameStateService.load().then(function () {
+      $ctrl.loadCats();
+    });
 
     $scope.$on("gacha:closed", function () {
       $ctrl.loadCats();
@@ -43,8 +52,8 @@ function CatsController($scope, $timeout, CatsApiService, RoomGrid) {
     CatsApiService.getUserCats().then(function (cats) {
       $ctrl.cats = cats.map(function (cat) {
         var position = getRandomRoomPosition(
-          $ctrl.roomWidth,
-          $ctrl.roomHeight,
+          getRoomWidthPx(),
+          getRoomHeightPx(),
           $ctrl.catSize,
         );
 
@@ -81,8 +90,8 @@ function CatsController($scope, $timeout, CatsApiService, RoomGrid) {
     }
 
     var position = getRandomRoomPosition(
-      $ctrl.roomWidth,
-      $ctrl.roomHeight,
+      getRoomWidthPx(),
+      getRoomHeightPx(),
       $ctrl.catSize,
     );
 
