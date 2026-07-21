@@ -16,6 +16,12 @@
       on-close="$ctrl.closeProfile()"
       class="z-1"
     ></profile-window>
+
+    <inventory-window
+      ng-if="$ctrl.isInventoryOpen"
+      on-close="$ctrl.closeInventory()"
+      class="z-1"
+    ></inventory-window>
   </md-content>
 
   <md-toolbar md-whiteframe="3" class="border-t border-black/10">
@@ -23,6 +29,15 @@
       <div class="flex-1"></div>
       <div class="flex-1"></div>
       <div class="flex flex-1 items-center justify-end">
+        <md-button
+          class="md-raised"
+          ng-class="{ 'md-primary': $ctrl.isInventoryOpen }"
+          ng-click="$ctrl.toggleInventory()"
+          aria-label="Inventory"
+        >
+          <md-icon>inventory</md-icon>
+          Inventory
+        </md-button>
         <md-button
           class="md-raised"
           ng-class="{ 'md-primary': $ctrl.isProfileOpen }"

@@ -1,0 +1,27 @@
+<div class="flex h-full w-full flex-col overflow-auto gap-4 p-4">
+  <md-progress-circular
+    ng-if="$ctrl.isLoading"
+    class="mx-auto my-8"
+    md-diameter="48"
+    md-mode="indeterminate"
+  ></md-progress-circular>
+
+  <p
+    ng-if="!$ctrl.isLoading && $ctrl.error"
+    class="md-body-1 m-0 px-4 py-8 text-center text-red-600"
+  >
+    {{ $ctrl.error }}
+  </p>
+
+  <p
+    ng-if="!$ctrl.isLoading && !$ctrl.error && $ctrl.cats.length === 0"
+    class="md-body-1 m-0 px-4 py-8 text-center text-gray-500"
+  >
+    No cats yet. Open a carton box to find one!
+  </p>
+
+  <inventory-cat-item
+    ng-repeat="cat in $ctrl.cats track by cat.userCatId"
+    cat="cat"
+  ></inventory-cat-item>
+</div>

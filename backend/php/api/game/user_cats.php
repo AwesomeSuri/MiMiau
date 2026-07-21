@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 
 require_once __DIR__ . "/../env_loader.php";
 require_once __DIR__ . "/auth_helper.php";
+require_once __DIR__ . "/gacha_cat_helper.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     http_response_code(405);
@@ -29,7 +30,8 @@ try {
             cc.id,
             cc.name,
             cc.image,
-            cc.sprite_sheet
+            cc.sprite_sheet,
+            cc.facts
         FROM user_cats uc
         INNER JOIN cats_catalog cc ON cc.id = uc.cat_id
         WHERE uc.user_id = ?
@@ -40,11 +42,14 @@ try {
 
     $cats = [];
     foreach ($rows as $row) {
+        $maxLevel = count(parseCatFacts($row["facts"]));
+
         $cats[] = [
             "userCatId" => (int) $row["user_cat_id"],
             "id" => (int) $row["id"],
             "name" => $row["name"],
             "level" => (int) $row["level"],
+            "maxLevel" => $maxLevel,
             "image" => $row["image"],
             "spriteSheet" => $row["sprite_sheet"],
         ];

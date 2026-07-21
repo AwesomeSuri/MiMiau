@@ -11,6 +11,7 @@ angular
     "mimiau.profile",
     "mimiau.room",
     "mimiau.gacha",
+    "mimiau.inventory",
   ])
   .config([
     "$routeProvider",
