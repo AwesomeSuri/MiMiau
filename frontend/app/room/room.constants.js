@@ -15,6 +15,7 @@ angular.module("mimiau.room").constant("CartonBoxSprite", {
     { col: 1, row: 0, duration: 200 },
     { col: 2, row: 0, duration: 200 },
   ],
+  FURNITURE_FRAME: { col: 0, row: 2 },
 });
 
 angular.module("mimiau.room").constant("CatSprite", {

@@ -33,6 +33,7 @@ function RoomItemController(CartonBoxSprite) {
   $ctrl.getVisualStyles = function () {
     var sheetCols = CartonBoxSprite.SHEET_COLUMNS;
     var sheetRows = CartonBoxSprite.SHEET_ROWS;
+    var frame = CartonBoxSprite.FURNITURE_FRAME;
 
     if ($ctrl.item) {
       return {
@@ -41,7 +42,11 @@ function RoomItemController(CartonBoxSprite) {
         backgroundImage: "url('" + $ctrl.item.spriteSheet + "')",
         backgroundRepeat: "no-repeat",
         backgroundSize: sheetCols * 100 + "% " + sheetRows * 100 + "%",
-        backgroundPosition: "0% 0%",
+        backgroundPosition:
+          (frame.col / (sheetCols - 1)) * 100 +
+          "% " +
+          (frame.row / (sheetRows - 1)) * 100 +
+          "%",
         imageRendering: "pixelated",
       };
     }
