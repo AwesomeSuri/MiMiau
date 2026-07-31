@@ -6,13 +6,20 @@ angular.module("mimiau.room").component("room", {
     "$scope",
     "GameStateService",
     "RoomGrid",
+    "GridCoords",
     "ItemsApiService",
     RoomController,
   ],
   controllerAs: "$ctrl",
 });
 
-function RoomController($scope, GameStateService, RoomGrid, ItemsApiService) {
+function RoomController(
+  $scope,
+  GameStateService,
+  RoomGrid,
+  GridCoords,
+  ItemsApiService,
+) {
   var $ctrl = this;
 
   $ctrl.gameStateService = GameStateService;
@@ -23,7 +30,12 @@ function RoomController($scope, GameStateService, RoomGrid, ItemsApiService) {
   $ctrl.rows = GameStateService.roomLength;
   $ctrl.width = $ctrl.columns * $ctrl.cellSize;
   $ctrl.height = $ctrl.rows * $ctrl.cellSize;
-  $ctrl.cells = buildCells($ctrl.columns, $ctrl.rows, $ctrl.placedItems);
+  $ctrl.cells = buildCells(
+    $ctrl.columns,
+    $ctrl.rows,
+    $ctrl.placedItems,
+    GridCoords,
+  );
 
   $ctrl.getGridStyle = function () {
     var colTemplate = "";
@@ -59,7 +71,12 @@ function RoomController($scope, GameStateService, RoomGrid, ItemsApiService) {
       $ctrl.placedItems = items.filter(function (item) {
         return item.placedInRoom;
       });
-      $ctrl.cells = buildCells($ctrl.columns, $ctrl.rows, $ctrl.placedItems);
+      $ctrl.cells = buildCells(
+        $ctrl.columns,
+        $ctrl.rows,
+        $ctrl.placedItems,
+        GridCoords,
+      );
     });
   };
 
@@ -68,17 +85,23 @@ function RoomController($scope, GameStateService, RoomGrid, ItemsApiService) {
     $ctrl.rows = GameStateService.roomLength;
     $ctrl.width = $ctrl.columns * $ctrl.cellSize;
     $ctrl.height = $ctrl.rows * $ctrl.cellSize;
-    $ctrl.cells = buildCells($ctrl.columns, $ctrl.rows, $ctrl.placedItems);
+    $ctrl.cells = buildCells(
+    $ctrl.columns,
+    $ctrl.rows,
+    $ctrl.placedItems,
+    GridCoords,
+  );
   }
 }
 
-function buildCells(cols, rows, items) {
+function buildCells(cols, rows, items, GridCoords) {
   var cells = [];
 
   for (var y = 0; y < rows; y++) {
     for (var x = 0; x < cols; x++) {
+      var centered = GridCoords.indexToCentered(x, y, cols, rows);
       var itemsInPos = items.filter(function (item) {
-        return item.gridX === x && item.gridY === y;
+        return item.gridX === centered.gridX && item.gridY === centered.gridY;
       });
       cells.push({ x: x, y: y, item: itemsInPos.length > 0 ? itemsInPos[0] : null });
     }

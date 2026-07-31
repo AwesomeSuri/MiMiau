@@ -16,11 +16,8 @@ function RoomItemController(CartonBoxSprite) {
   $ctrl.getContainerStyle = function () {
     if ($ctrl.item) {
       return {
-        position: "absolute",
         width: $ctrl.cellSize + "px",
         height: $ctrl.cellSize + "px",
-        left: $ctrl.item.gridX * $ctrl.cellSize + "px",
-        top: $ctrl.item.gridY * $ctrl.cellSize + "px",
         display: "flex",
         alignItems: "end",
         pointerEvents: "none",

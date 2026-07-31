@@ -57,4 +57,4 @@ INSERT IGNORE INTO users (id, email, password, username) VALUES
 (1, 'test@example.com', '$2y$12$rlscjYb1K0PqXNkRx1fi1.G6eFbuHKmPVq823p9yKI3Nklx6wFiGq', 'TestUser');
 
 INSERT IGNORE INTO user_items (id, user_id, item_id, grid_x, grid_y) VALUES
-(1, 1, 1, 4, 2);
+(1, 1, 1, 1, 0);

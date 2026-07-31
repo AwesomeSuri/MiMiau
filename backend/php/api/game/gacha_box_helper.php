@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/grid_coords_helper.php";
+
 const CARTON_BOX_ITEM_NAME = "Carton Box";
 
 function getBoxPlacement(
@@ -8,24 +10,27 @@ function getBoxPlacement(
     int $roomWidth,
     int $roomLength
 ): ?array {
-    // get free cells
-    $cells = array_fill(0, $roomLength, array_fill(0, $roomWidth, false));
+    $bounds = getCenteredBounds($roomWidth, $roomLength);
+    $occupied = [];
+
     $itemsStmt = $pdo->prepare(
         "SELECT grid_x, grid_y FROM user_items WHERE user_id = ? AND grid_x IS NOT NULL AND grid_y IS NOT NULL"
     );
     $itemsStmt->execute([$userId]);
+
     foreach ($itemsStmt->fetchAll() as $item) {
         $x = (int) $item["grid_x"];
         $y = (int) $item["grid_y"];
 
-        if ($x >= 0 && $x < $roomWidth && $y >= 0 && $y < $roomLength) {
-            $cells[$y][$x] = true;
+        if (isCenteredCoordInRoom($x, $y, $roomWidth, $roomLength)) {
+            $occupied["$x,$y"] = true;
         }
     }
+
     $freeCells = [];
-    for ($y = 0; $y < $roomLength; $y++) {
-        for ($x = 0; $x < $roomWidth; $x++) {
-            if (!$cells[$y][$x]) {
+    for ($y = $bounds["minY"]; $y <= $bounds["maxY"]; $y++) {
+        for ($x = $bounds["minX"]; $x <= $bounds["maxX"]; $x++) {
+            if (!isset($occupied["$x,$y"])) {
                 $freeCells[] = ["grid_x" => $x, "grid_y" => $y];
             }
         }
@@ -35,14 +40,11 @@ function getBoxPlacement(
         return null;
     }
 
-    // get center placement
-    $centerX = ($roomWidth - 1) / 2;
-    $centerY = ($roomLength - 1) / 2;
     $bestCell = null;
     $bestDistance = PHP_FLOAT_MAX;
 
     foreach ($freeCells as $cell) {
-        $distance = pow($cell["grid_x"] - $centerX, 2) + pow($cell["grid_y"] - $centerY, 2);
+        $distance = pow($cell["grid_x"], 2) + pow($cell["grid_y"], 2);
         if ($bestCell === null || $distance < $bestDistance) {
             $bestCell = $cell;
             $bestDistance = $distance;
@@ -60,7 +62,6 @@ function grantCartonBoxItem(
 ) {
     $placement = getBoxPlacement($pdo, $userId, $roomWidth, $roomLength);
 
-    // Get box item info
     $catalogStmt = $pdo->prepare(
         "SELECT id, name, type, image, sprite_sheet FROM items_catalog WHERE name = ? LIMIT 1"
     );

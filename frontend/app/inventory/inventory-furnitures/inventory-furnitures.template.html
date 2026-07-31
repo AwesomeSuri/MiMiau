@@ -29,17 +29,19 @@
     {{ $ctrl.getEmptyMessage() }}
   </p>
 
-  <inventory-furniture-item
-    ng-if="!$ctrl.showPlacedItems"
-    ng-repeat="group in $ctrl.displayedItems track by group.itemId"
-    item="group"
-    count="group.count"
-  ></inventory-furniture-item>
+  <div ng-if="!$ctrl.showPlacedItems">
+    <inventory-furniture-item
+      ng-repeat="group in $ctrl.displayedItems track by group.itemId"
+      item="group"
+      count="group.count"
+    ></inventory-furniture-item>
+  </div>
 
-  <inventory-furniture-item
-    ng-if="$ctrl.showPlacedItems"
-    ng-repeat="item in $ctrl.displayedItems track by item.userItemId"
-    item="item"
-    show-coordinates="true"
-  ></inventory-furniture-item>
+  <div ng-if="$ctrl.showPlacedItems">
+    <inventory-furniture-item
+      ng-repeat="item in $ctrl.displayedItems track by item.userItemId"
+      item="item"
+      show-coordinates="true"
+    ></inventory-furniture-item>
+  </div>
 </div>
