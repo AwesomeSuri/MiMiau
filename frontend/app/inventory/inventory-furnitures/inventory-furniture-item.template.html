@@ -1,0 +1,14 @@
+<div class="flex items-center rounded-xl gap-3 shadow-md p-4">
+  <div class="flex h-16 w-16 shrink-0 items-end justify-center overflow-hidden">
+    <div ng-style="$ctrl.getVisualStyles()"></div>
+  </div>
+  <div class="flex min-w-0 flex-1 flex-col gap-1">
+    <h3 class="md-subhead m-0 truncate">{{ $ctrl.item.name }}</h3>
+    <p ng-if="$ctrl.count != null" class="md-body-2 m-0 text-gray-600">
+      x{{ $ctrl.count }}
+    </p>
+    <p ng-if="$ctrl.showCoordinates" class="md-caption m-0 text-gray-500">
+      ({{ $ctrl.item.gridX }}, {{ $ctrl.item.gridY }})
+    </p>
+  </div>
+</div>

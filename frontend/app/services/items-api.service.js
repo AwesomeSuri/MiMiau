@@ -20,6 +20,16 @@ angular.module("mimiau.room").factory("ItemsApiService", [
             return res.data;
           });
       },
+
+      getUserFurnitures: function () {
+        return $http
+          .get(ENV.phpApiUrl + "/game/user_furnitures.php", {
+            headers: getAuthHeaders(),
+          })
+          .then(function (res) {
+            return res.data;
+          });
+      },
     };
   },
 ]);
