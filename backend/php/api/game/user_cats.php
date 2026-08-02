@@ -42,16 +42,19 @@ try {
 
     $cats = [];
     foreach ($rows as $row) {
-        $maxLevel = count(parseCatFacts($row["facts"]));
+        $facts = parseCatFacts($row["facts"]);
+        $level = (int) $row["level"];
+        $maxLevel = count($facts);
 
         $cats[] = [
             "userCatId" => (int) $row["user_cat_id"],
             "id" => (int) $row["id"],
             "name" => $row["name"],
-            "level" => (int) $row["level"],
+            "level" => $level,
             "maxLevel" => $maxLevel,
             "image" => $row["image"],
             "spriteSheet" => $row["sprite_sheet"],
+            "facts" => maskCatFactsByLevel($facts, $level),
         ];
     }
 

@@ -143,14 +143,6 @@ function GachaController(
     return stars;
   };
 
-  $ctrl.getFactText = function (index) {
-    if (!$ctrl.newCat || !$ctrl.newCat.facts) {
-      return "?";
-    }
-
-    return index < $ctrl.newCat.level ? $ctrl.newCat.facts[index] : "?";
-  };
-
   $ctrl.close = function () {
     GachaService.close();
   };

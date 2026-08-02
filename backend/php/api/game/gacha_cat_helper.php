@@ -15,6 +15,17 @@ function parseCatFacts(?string $factsJson): array
     return $decoded;
 }
 
+function maskCatFactsByLevel(array $facts, int $level): array
+{
+    return array_map(
+        function ($fact, $index) use ($level) {
+            return $index < $level ? $fact : "?";
+        },
+        $facts,
+        array_keys($facts)
+    );
+}
+
 function grantCat(PDO $pdo, int $userId): array
 {
     $catalogStmt = $pdo->query(
@@ -63,13 +74,7 @@ function grantCat(PDO $pdo, int $userId): array
         }
     }
 
-    $facts = array_map(
-        function ($fact, $index) use ($level) {
-            return $index < $level ? $fact : "?";
-        },
-        $facts,
-        array_keys($facts)
-    );
+    $facts = maskCatFactsByLevel($facts, $level);
 
     return [
         "resultCode" => $resultCode,

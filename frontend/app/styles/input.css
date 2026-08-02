@@ -28,4 +28,26 @@
   home-view {
     @apply flex h-screen flex-col;
   }
+
+  inventory-cat-item .inventory-cat-facts-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
+  }
+
+  inventory-cat-item .inventory-cat-facts-panel.is-expanded {
+    grid-template-rows: 1fr;
+  }
+
+  inventory-cat-item .inventory-cat-facts-panel__inner {
+    overflow: hidden;
+  }
+
+  inventory-cat-item .inventory-cat-item__chevron {
+    transition: transform 0.3s ease-out;
+  }
+
+  inventory-cat-item .inventory-cat-item__chevron.is-expanded {
+    transform: rotate(180deg);
+  }
 }

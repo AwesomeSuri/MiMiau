@@ -10,6 +10,7 @@ function InventoryCatsController(CatsApiService) {
   var $ctrl = this;
 
   $ctrl.cats = [];
+  $ctrl.expandedUserCatId = null;
   $ctrl.isLoading = true;
   $ctrl.error = null;
 
@@ -24,5 +25,10 @@ function InventoryCatsController(CatsApiService) {
       .finally(function () {
         $ctrl.isLoading = false;
       });
+  };
+
+  $ctrl.toggleCat = function (userCatId) {
+    $ctrl.expandedUserCatId =
+      $ctrl.expandedUserCatId === userCatId ? null : userCatId;
   };
 }

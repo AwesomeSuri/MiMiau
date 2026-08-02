@@ -4,6 +4,8 @@ angular.module("mimiau.inventory").component("inventoryCatItem", {
   templateUrl: "inventory/inventory-cats/inventory-cat-item.template.html",
   bindings: {
     cat: "<",
+    isExpanded: "<",
+    onToggle: "&",
   },
   controller: [InventoryCatItemController],
   controllerAs: "$ctrl",

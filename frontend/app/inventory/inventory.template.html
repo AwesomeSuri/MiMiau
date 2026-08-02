@@ -3,10 +3,10 @@
   ng-click="$ctrl.close()"
 >
   <md-card
-    class="m-0 flex size-full flex-col rounded-none sm:size-auto sm:max-h-[640px] sm:w-full sm:max-w-[640px] sm:rounded-xl"
+    class="m-0 flex size-full min-h-0 flex-col overflow-hidden rounded-none sm:size-auto sm:max-h-[640px] sm:w-full sm:max-w-[640px] sm:rounded-xl"
     ng-click="$event.stopPropagation()"
   >
-    <md-card-content class="flex flex-1 flex-col overflow-auto">
+    <md-card-content class="flex min-h-0 flex-1 flex-col overflow-hidden">
       <div class="mb-6 flex flex-grow-0 items-center justify-between">
         <div class="flex items-center justify-start">
           <h2 class="md-title m-0">Inventory</h2>
@@ -20,7 +20,7 @@
         </md-button>
       </div>
 
-      <div class="grid grid-cols-3 w-full">
+      <div class="mb-4 grid w-full shrink-0 grid-cols-3">
         <md-button
           class="md-raised"
           ng-click="$ctrl.showCats()"
@@ -41,21 +41,14 @@
         >
       </div>
 
-      <div class="rounded-xl shadow-inner h-full">
-        <inventory-cats
-          ng-if="$ctrl.view === 'cats'"
-          class="flex h-full"
-        ></inventory-cats>
+      <div class="min-h-0 flex-1 overflow-auto rounded-xl shadow-inner">
+        <inventory-cats ng-if="$ctrl.view === 'cats'"></inventory-cats>
 
         <inventory-furnitures
           ng-if="$ctrl.view === 'furnitures'"
-          class="flex h-full"
         ></inventory-furnitures>
 
-        <inventory-toys
-          ng-if="$ctrl.view === 'toys'"
-          class="flex h-full"
-        ></inventory-toys>
+        <inventory-toys ng-if="$ctrl.view === 'toys'"></inventory-toys>
       </div>
     </md-card-content>
   </md-card>

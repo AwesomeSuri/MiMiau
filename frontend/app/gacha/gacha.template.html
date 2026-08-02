@@ -66,10 +66,10 @@
               ng-repeat="fact in $ctrl.newCat.facts track by $index"
               class="md-body-1 m-0"
               ng-class="{
-                'text-gray-400': $index >= $ctrl.newCat.level,
+                'text-gray-400': fact === '?',
               }"
             >
-              {{ $ctrl.getFactText($index) }}
+              {{ fact }}
             </li>
           </ul>
         </div>
