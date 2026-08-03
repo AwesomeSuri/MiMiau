@@ -29,15 +29,14 @@
     {{ $ctrl.getEmptyMessage() }}
   </p>
 
-  <div ng-if="!$ctrl.showPlacedItems">
+  <div ng-if="!$ctrl.showPlacedItems" class="flex flex-col gap-4">
     <inventory-furniture-item
       ng-repeat="group in $ctrl.displayedItems track by group.itemId"
       item="group"
-      count="group.count"
     ></inventory-furniture-item>
   </div>
 
-  <div ng-if="$ctrl.showPlacedItems">
+  <div ng-if="$ctrl.showPlacedItems" class="flex flex-col gap-4">
     <inventory-furniture-item
       ng-repeat="item in $ctrl.displayedItems track by item.userItemId"
       item="item"

@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
     level INT NOT NULL DEFAULT 1,
     gacha_queue INT NOT NULL DEFAULT 1,
     room_width INT NOT NULL DEFAULT 7,
-    room_length INT NOT NULL DEFAULT 5
+    room_length INT NOT NULL DEFAULT 5,
+    furrency INT NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS cats_catalog (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,7 +30,9 @@ CREATE TABLE IF NOT EXISTS items_catalog (
     name VARCHAR(50) NOT NULL UNIQUE,
     type ENUM('furniture', 'toy') NOT NULL,
     image VARCHAR(100) NOT NULL,
-    sprite_sheet VARCHAR(100) NOT NULL
+    sprite_sheet VARCHAR(100) NOT NULL,
+    base_gain INT NOT NULL DEFAULT 0,
+    base_duration_sec INT NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS user_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,8 +52,8 @@ INSERT IGNORE INTO cats_catalog (id, name, image, sprite_sheet, facts) VALUES
 (1, 'Bongo Cat', 'assets/cats/bongo.png', 'assets/cats/bongo.png', '["Loves to bongo on tables"]'),
 (2, 'Pop Cat', 'assets/cats/pop.png', 'assets/cats/pop.png', '["Pop pop pop!"]');
 
-INSERT IGNORE INTO items_catalog (id, name, type, image, sprite_sheet) VALUES
-(1, 'Carton Box', 'furniture', 'assets/spritesheets/carton-box-sheet.png', 'assets/spritesheets/carton-box-sheet.png');
+INSERT IGNORE INTO items_catalog (id, name, type, image, sprite_sheet, base_gain, base_duration_sec) VALUES
+(1, 'Carton Box', 'furniture', 'assets/spritesheets/carton-box-sheet.png', 'assets/spritesheets/carton-box-sheet.png', 0, 0);
 
 -- Local dev test user: test@example.com / password1234
 INSERT IGNORE INTO users (id, email, password, username) VALUES

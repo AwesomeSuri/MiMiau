@@ -48,6 +48,7 @@ function GameViewportController(
   $ctrl.roomHeight = getRoomHeightPx();
   $ctrl.minimapWidth = MINIMAP_WIDTH;
   $ctrl.minimapHeight = MINIMAP_HEIGHT;
+  $ctrl.gameStateService = GameStateService;
 
   $ctrl.scale = 1;
   $ctrl.translateX = 0;
@@ -220,7 +221,8 @@ function GameViewportController(
 
     $ctrl.scale = MAX_SCALE;
     $ctrl.translateX = ($ctrl.viewportWidth - getRoomWidthPx() * MAX_SCALE) / 2;
-    $ctrl.translateY = ($ctrl.viewportHeight - getRoomHeightPx() * MAX_SCALE) / 2;
+    $ctrl.translateY =
+      ($ctrl.viewportHeight - getRoomHeightPx() * MAX_SCALE) / 2;
     constrainPan();
 
     $ctrl.resetScale = MAX_SCALE;

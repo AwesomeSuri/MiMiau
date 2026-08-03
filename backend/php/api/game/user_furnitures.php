@@ -31,7 +31,9 @@ try {
             ic.name,
             ic.type,
             ic.image,
-            ic.sprite_sheet
+            ic.sprite_sheet,
+            ic.base_gain,
+            ic.base_duration_sec
         FROM user_items ui
         INNER JOIN items_catalog ic ON ic.id = ui.item_id
         WHERE ui.user_id = ?
@@ -52,6 +54,8 @@ try {
             "type" => $furniture["type"],
             "image" => $furniture["image"],
             "spriteSheet" => $furniture["sprite_sheet"],
+            "baseGain" => (int) $furniture["base_gain"],
+            "baseDurationSec" => (int) $furniture["base_duration_sec"],
             "gridX" =>
             $furniture["grid_x"] === null ? null : (int) $furniture["grid_x"],
             "gridY" =>

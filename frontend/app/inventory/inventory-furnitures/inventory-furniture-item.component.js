@@ -5,17 +5,20 @@ angular.module("mimiau.inventory").component("inventoryFurnitureItem", {
     "inventory/inventory-furnitures/inventory-furniture-item.template.html",
   bindings: {
     item: "<",
-    count: "<",
     showCoordinates: "<",
   },
-  controller: ["CartonBoxSprite", InventoryFurnitureItemController],
+  controller: [
+    "CartonBoxSprite",
+    "TimeFormatService",
+    InventoryFurnitureItemController,
+  ],
   controllerAs: "$ctrl",
 });
 
-function InventoryFurnitureItemController(CartonBoxSprite) {
+function InventoryFurnitureItemController(CartonBoxSprite, TimeFormatService) {
   var $ctrl = this;
 
-  var displaySize = 64;
+  $ctrl.formatDuration = TimeFormatService.formatDuration;
 
   $ctrl.getVisualStyles = function () {
     if (!$ctrl.item) {
@@ -27,11 +30,11 @@ function InventoryFurnitureItemController(CartonBoxSprite) {
     var frame = CartonBoxSprite.FURNITURE_FRAME;
 
     return {
-      width: displaySize + "px",
-      height: displaySize * 2 + "px",
+      width: "64px",
+      height: "64px",
       backgroundImage: "url('" + $ctrl.item.spriteSheet + "')",
       backgroundRepeat: "no-repeat",
-      backgroundSize: sheetCols * 100 + "% " + sheetRows * 100 + "%",
+      backgroundSize: sheetCols * 100 + "% " + sheetRows * 2 * 100 + "%",
       backgroundPosition:
         (frame.col / (sheetCols - 1)) * 100 +
         "% " +

@@ -98,6 +98,7 @@ function GachaController(
         GameStateService.applyProgress({
           level: cat.userLevel,
           gachaQueue: cat.gachaQueue,
+          furrency: cat.furrency,
         });
         playFinalFrame();
         $timeout(function () {

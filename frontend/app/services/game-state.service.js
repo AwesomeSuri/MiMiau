@@ -10,6 +10,7 @@ angular.module("mimiau.gacha").service("GameStateService", [
     self.gachaQueue = 0;
     self.roomWidth = 7;
     self.roomLength = 5;
+    self.furrency = 0;
 
     function getAuthHeaders() {
       return {
@@ -29,6 +30,9 @@ angular.module("mimiau.gacha").service("GameStateService", [
       }
       if (progress.roomLength != null) {
         self.roomLength = progress.roomLength;
+      }
+      if (progress.furrency != null) {
+        self.furrency = progress.furrency;
       }
       return progress;
     }

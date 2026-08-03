@@ -61,7 +61,7 @@ function getPdo(): PDO
 function fetchUserProgress(PDO $pdo, int $userId): ?array
 {
     $stmt = $pdo->prepare(
-        "SELECT level, gacha_queue, room_width, room_length FROM users WHERE id = ?"
+        "SELECT level, gacha_queue, room_width, room_length, furrency FROM users WHERE id = ?"
     );
     $stmt->execute([$userId]);
     $row = $stmt->fetch();
@@ -75,6 +75,7 @@ function fetchUserProgress(PDO $pdo, int $userId): ?array
         "gachaQueue" => (int) $row["gacha_queue"],
         "roomWidth" => (int) $row["room_width"],
         "roomLength" => (int) $row["room_length"],
+        "furrency" => (int) $row["furrency"],
     ];
 }
 

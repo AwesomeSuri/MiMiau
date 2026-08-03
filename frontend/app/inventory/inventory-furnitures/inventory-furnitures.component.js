@@ -50,14 +50,10 @@ function InventoryFurnituresController(ItemsApiService) {
       return;
     }
 
-    $ctrl.displayedItems = groupUnplacedByType(
-      $ctrl.allFurnitures.filter(function (item) {
-        return !item.placedInRoom;
-      }),
-    );
+    $ctrl.displayedItems = groupFurnitureByType($ctrl.allFurnitures);
   }
 
-  function groupUnplacedByType(items) {
+  function groupFurnitureByType(items) {
     var groupsByItemId = {};
 
     items.forEach(function (item) {
@@ -67,11 +63,18 @@ function InventoryFurnituresController(ItemsApiService) {
           name: item.name,
           image: item.image,
           spriteSheet: item.spriteSheet,
-          count: 0,
+          baseGain: item.baseGain,
+          baseDurationSec: item.baseDurationSec,
+          inventoryCount: 0,
+          placedCount: 0,
         };
       }
 
-      groupsByItemId[item.itemId].count += 1;
+      if (item.placedInRoom) {
+        groupsByItemId[item.itemId].placedCount += 1;
+      } else {
+        groupsByItemId[item.itemId].inventoryCount += 1;
+      }
     });
 
     return Object.keys(groupsByItemId).map(function (itemId) {

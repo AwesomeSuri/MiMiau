@@ -76,6 +76,7 @@ try {
     echo json_encode(array_merge($cat, [
         "userLevel" => $progress["level"],
         "gachaQueue" => $progress["gachaQueue"],
+        "furrency" => $progress["furrency"],
     ]));
 } catch (\PDOException $e) {
     if ($pdo && $pdo->inTransaction()) {
