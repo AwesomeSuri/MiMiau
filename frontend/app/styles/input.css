@@ -10,6 +10,10 @@
   [ng-view] {
     @apply h-screen;
   }
+
+  :focus {
+    outline: none;
+  }
 }
 
 @layer components {
@@ -23,6 +27,16 @@
     md-card {
       @apply w-full max-w-[400px];
     }
+  }
+
+  room-item .room-item__visual--selected {
+    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 3px #fde047)
+      drop-shadow(0 0 5px #facc15);
+  }
+
+  .selection-overlay__label {
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 
   home-view {

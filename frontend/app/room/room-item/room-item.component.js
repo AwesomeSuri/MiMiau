@@ -6,12 +6,21 @@ angular.module("mimiau.room").component("roomItem", {
     item: "<",
     cellSize: "<",
   },
-  controller: ["CartonBoxSprite", RoomItemController],
+  controller: ["CartonBoxSprite", "SelectionService", RoomItemController],
   controllerAs: "$ctrl",
 });
 
-function RoomItemController(CartonBoxSprite) {
+function RoomItemController(CartonBoxSprite, SelectionService) {
   var $ctrl = this;
+
+  $ctrl.onSelect = function ($event) {
+    $event.stopPropagation();
+    SelectionService.select($ctrl.item);
+  };
+
+  $ctrl.isSelected = function () {
+    return SelectionService.isSelected($ctrl.item.userItemId);
+  };
 
   $ctrl.getContainerStyle = function () {
     if ($ctrl.item) {
@@ -20,7 +29,7 @@ function RoomItemController(CartonBoxSprite) {
         height: $ctrl.cellSize + "px",
         display: "flex",
         alignItems: "end",
-        pointerEvents: "none",
+        cursor: "pointer",
       };
     }
 
@@ -45,6 +54,7 @@ function RoomItemController(CartonBoxSprite) {
           (frame.row / (sheetRows - 1)) * 100 +
           "%",
         imageRendering: "pixelated",
+        pointerEvents: "none",
       };
     }
 

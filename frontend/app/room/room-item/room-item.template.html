@@ -1,3 +1,12 @@
-<div ng-style="$ctrl.getContainerStyle()">
-  <div ng-style="$ctrl.getVisualStyles()"></div>
+<div
+  ng-if="$ctrl.item"
+  ng-style="$ctrl.getContainerStyle()"
+  ng-mousedown="$event.stopPropagation()"
+  ng-click="$ctrl.onSelect($event)"
+>
+  <div
+    class="room-item__visual transition-[filter] duration-200"
+    ng-class="{ 'room-item__visual--selected': $ctrl.isSelected() }"
+    ng-style="$ctrl.getVisualStyles()"
+  ></div>
 </div>

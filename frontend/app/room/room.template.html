@@ -1,4 +1,8 @@
-<div class="grid bg-amber-100 shadow-inner" ng-style="$ctrl.getGridStyle()">
+<div
+  class="relative grid bg-amber-100 shadow-inner"
+  ng-style="$ctrl.getGridStyle()"
+  ng-click="$ctrl.onBackgroundClick()"
+>
   <div
     ng-repeat="cell in $ctrl.cells track by (cell.x + '-' + cell.y)"
     class="box-border border border-solid border-amber-300/60 flex justify-center items-center"

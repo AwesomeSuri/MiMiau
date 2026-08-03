@@ -9,6 +9,7 @@ angular.module("mimiau.home").component("gameViewport", {
     "$timeout",
     "GameStateService",
     "RoomGrid",
+    "ViewportTransformService",
     GameViewportController,
   ],
   controllerAs: "$ctrl",
@@ -21,6 +22,7 @@ function GameViewportController(
   $timeout,
   GameStateService,
   RoomGrid,
+  ViewportTransformService,
 ) {
   var $ctrl = this;
 
@@ -212,6 +214,15 @@ function GameViewportController(
 
     $ctrl.translateX = $ctrl.viewportWidth / 2 - clampedCenterX * $ctrl.scale;
     $ctrl.translateY = $ctrl.viewportHeight / 2 - clampedCenterY * $ctrl.scale;
+    syncViewportTransform();
+  }
+
+  function syncViewportTransform() {
+    ViewportTransformService.set(
+      $ctrl.scale,
+      $ctrl.translateX,
+      $ctrl.translateY,
+    );
   }
 
   function applyResetView() {

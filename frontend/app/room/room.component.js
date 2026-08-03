@@ -8,6 +8,7 @@ angular.module("mimiau.room").component("room", {
     "RoomGrid",
     "GridCoords",
     "ItemsApiService",
+    "SelectionService",
     RoomController,
   ],
   controllerAs: "$ctrl",
@@ -19,6 +20,7 @@ function RoomController(
   RoomGrid,
   GridCoords,
   ItemsApiService,
+  SelectionService,
 ) {
   var $ctrl = this;
 
@@ -66,6 +68,10 @@ function RoomController(
     });
   };
 
+  $ctrl.onBackgroundClick = function () {
+    SelectionService.clear();
+  };
+
   $ctrl.loadItems = function () {
     ItemsApiService.getUserItems().then(function (items) {
       $ctrl.placedItems = items.filter(function (item) {
@@ -77,8 +83,25 @@ function RoomController(
         $ctrl.placedItems,
         GridCoords,
       );
+      clearSelectionIfMissing($ctrl.placedItems);
     });
   };
+
+  function clearSelectionIfMissing(placedItems) {
+    var selectedItem = SelectionService.getSelectedItem();
+
+    if (!selectedItem) {
+      return;
+    }
+
+    var stillPlaced = placedItems.some(function (item) {
+      return item.userItemId === selectedItem.userItemId;
+    });
+
+    if (!stillPlaced) {
+      SelectionService.clear();
+    }
+  }
 
   function syncRoomSize() {
     $ctrl.columns = GameStateService.roomWidth;
