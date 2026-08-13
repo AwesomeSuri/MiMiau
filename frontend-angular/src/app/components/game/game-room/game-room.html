@@ -1,6 +1,0 @@
-<div class="game-room">
-    <button *ngIf="catState.catCount() === 0" class="box" (click)="onOpenBox()"></button>
-    <button class="cat-wrapper" *ngFor="let cat of catState.cats()" (click)="catState.selectedCat.set(cat)">
-        🐱 {{ cat.name }} (★{{ cat.starLevel }})
-    </button>
-</div>
